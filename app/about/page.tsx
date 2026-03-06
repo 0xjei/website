@@ -16,7 +16,7 @@ export default function About() {
 
       <section className="space-y-4">
         <SectionHeading>Who</SectionHeading>
-        <p className="text-sm font-mono leading-relaxed text-foreground/70 text-justify">
+        <p className="text-sm font-mono leading-relaxed text-foreground/70">
           I am 0xjei (Giacomo), a senior, independent applied cryptography software engineer based
           in South{" "}
           <a
@@ -37,7 +37,7 @@ export default function About() {
 
       <section className="space-y-4">
         <SectionHeading>What I Do</SectionHeading>
-        <p className="text-sm font-mono leading-relaxed text-foreground/70 text-justify">
+        <p className="text-sm font-mono leading-relaxed text-foreground/70">
           I design and implement systems that use programmable cryptography (ZKP, MPC, FHE) and
           Ethereum to build privacy-preserving infrastructure and protocols. My work sits at the
           intersection between cryptography research and production engineering — I take primitives
@@ -55,7 +55,7 @@ export default function About() {
 
       <section className="space-y-4">
         <SectionHeading>Why</SectionHeading>
-        <p className="text-sm font-mono leading-relaxed text-foreground/70 text-justify">
+        <p className="text-sm font-mono leading-relaxed text-foreground/70">
           I strongly believe in privacy as a foundation for freedom, trustlessness as a design
           constraint, and protocols that empower rather than extract (see{" "}
           <Link href="/collaborate" className="font-bold text-foreground transition-colors">

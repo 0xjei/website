@@ -69,7 +69,7 @@ export default async function Writings({
       {years.length === 0 ? (
         writings.length === 0 ? (
           <p className="text-sm font-mono font-bold italic text-foreground leading-relaxed">
-            There's nothing here yet, but you'll soon find research notes, essays, and technical
+            There is nothing here yet, but you will soon find research notes, essays, and technical
             deep dives on programmable cryptography and Ethereum.{" "}
           </p>
         ) : (

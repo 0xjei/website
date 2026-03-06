@@ -120,7 +120,7 @@ export default async function Writing({ params }: { params: Promise<{ slug: stri
           </div>
         </header>
 
-        <div className="space-y-4 text-sm font-mono leading-relaxed text-foreground/80 text-justify">
+        <div className="space-y-4 text-sm font-mono leading-relaxed text-foreground/80">
           <MDXRemote
             source={content}
             options={{

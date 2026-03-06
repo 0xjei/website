@@ -69,7 +69,7 @@ export default async function LogEntry({ params }: { params: Promise<{ slug: str
         </p>
       </header>
 
-      <div className="space-y-4 text-sm font-mono leading-relaxed text-foreground/80 text-justify">
+      <div className="space-y-4 text-sm font-mono leading-relaxed text-foreground/80">
         <MDXRemote source={content} components={mdxComponents} />
       </div>
 

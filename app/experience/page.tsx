@@ -485,7 +485,7 @@ export default function Experience() {
                     {project.role && (
                       <p className="text-xs font-mono text-muted-foreground">{project.role}</p>
                     )}
-                    <div className="text-sm font-mono leading-relaxed text-foreground/70 text-justify">
+                    <div className="text-sm font-mono leading-relaxed text-foreground/70">
                       {project.description}
                     </div>
                   </li>
