@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "0xjei",
     short_name: "0xjei",
-    description: "Applied cryptography engineer. Cypherpunk · d/acc · open source.",
+    description: "Applied cryptography engineer | d/acc",
     display: "standalone",
     background_color: "#ffffff",
     theme_color: "#141414",

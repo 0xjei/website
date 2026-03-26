@@ -4,7 +4,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Collaborate",
-  description: "Open to R&D collaborations on programmable cryptography and Ethereum.",
+  description: "Open to R&D collaborations on programmable cryptography & blockchain, AI & agents.",
 }
 
 const lookingFor = [
@@ -24,7 +24,7 @@ export default function Collaborate() {
   return (
     <div className="space-y-8 stagger">
       <p className="text-sm font-mono text-muted-foreground italic">
-        Open to R&D collaborations on programmable cryptography and Ethereum.
+        Open to R&D collaborations on programmable cryptography & blockchain, AI & agents.
       </p>
 
       <section className="space-y-3">

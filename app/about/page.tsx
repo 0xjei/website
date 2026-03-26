@@ -39,7 +39,7 @@ export default function About() {
         <SectionHeading>What I Do</SectionHeading>
         <p className="text-sm font-mono leading-relaxed text-foreground/70">
           I design and implement systems that use programmable cryptography (ZKP, MPC, FHE) and
-          Ethereum to build privacy-preserving infrastructure and protocols. My work sits at the
+          blockchain to build privacy-preserving infrastructure and protocols. My work sits at the
           intersection between cryptography research and production engineering — I take primitives
           from papers and turn them into systems that developers can actually use.
           <br />
@@ -67,8 +67,8 @@ export default function About() {
           As systems become more centralized and surveillance-capable, we need infrastructure that
           shifts power back to individuals and communities. <br />
           Programmable cryptography is how we enable groups to work together in a privacy-preserving
-          way, while Ethereum is how we enable them to coordinate and collaborate without a central
-          authority.
+          way, while blockchain is how we enable them to coordinate and collaborate without a
+          central authority.
         </p>
       </section>
     </div>

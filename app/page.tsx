@@ -11,7 +11,7 @@ export default function Home() {
       <section className="space-y-5">
         <div className="font-mono text-sm leading-loose">
           <p className="text-foreground">applied cryptography engineer</p>
-          <p className="text-muted-foreground">cypherpunk · d/acc · open source</p>
+          <p className="text-muted-foreground">d/acc</p>
         </div>
         <p className="text-sm font-mono text-muted-foreground italic leading-relaxed">
           &ldquo;Navigating the dark matter of programmable cryptography&rdquo;
@@ -19,7 +19,7 @@ export default function Home() {
         <p className="text-sm font-mono leading-relaxed text-foreground/70">
           My work lies at the intersection between applied cryptography research and development. I
           design and build privacy-preserving infrastructure, protocols and libraries for
-          collaborative confidential computation on Ethereum.
+          collaborative confidential computation.
         </p>
       </section>
 

@@ -70,7 +70,7 @@ export default async function Writings({
         writings.length === 0 ? (
           <p className="text-sm font-mono font-bold italic text-foreground leading-relaxed">
             There is nothing here yet, but you will soon find research notes, essays, and technical
-            deep dives on programmable cryptography and Ethereum.{" "}
+            deep dives on programmable cryptography & blockchain, AI & agents.{" "}
           </p>
         ) : (
           <p className="text-sm font-mono text-muted-foreground">

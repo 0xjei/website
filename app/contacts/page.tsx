@@ -102,8 +102,9 @@ export default function Contacts() {
       <section className="space-y-3">
         <SectionHeading>Collaborations</SectionHeading>
         <p className="text-sm font-mono leading-relaxed text-foreground/70">
-          If you are working on something in the programmable cryptography or Ethereum space and,
-          you think that our work or interests could intersect, I would love to hear from you!
+          If you are working on something in the programmable cryptography & blockchain, AI & agents
+          space and, you think that our work or interests could intersect, I would love to hear from
+          you!
           <br />
           <br />
           Please, check the{" "}
