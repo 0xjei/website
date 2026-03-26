@@ -1,59 +1,98 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef } from "react"
 
-// + for bright stars, · for dim ones — matches the retro pixel aesthetic
-const SHAPES = ["+", "+", "·", "·", "·", "·"] // weighted toward small dots
-const SIZES = [8, 8, 9, 10, 10, 11] // weighted toward small
+const STAR_COUNT = 80
+const PIXEL_SIZES = [2, 2, 2, 3, 3, 4] // weighted toward small
 
-type Shape = {
-  id: number
+type Star = {
   x: number
   y: number
-  char: string
   size: number
-  delay: number
+  baseOpacity: number
+  twinkleSpeed: number
+  twinkleOffset: number
 }
 
-function makeShapes(count: number): Shape[] {
-  return Array.from({ length: count }, (_, id) => ({
-    id,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    char: SHAPES[Math.floor(Math.random() * SHAPES.length)],
-    size: SIZES[Math.floor(Math.random() * SIZES.length)],
-    delay: Math.random() * 7,
+function makeStars(count: number): Star[] {
+  return Array.from({ length: count }, () => ({
+    x: Math.random(),
+    y: Math.random(),
+    size: PIXEL_SIZES[Math.floor(Math.random() * PIXEL_SIZES.length)],
+    baseOpacity: 0.15 + Math.random() * 0.35,
+    twinkleSpeed: 0.5 + Math.random() * 2,
+    twinkleOffset: Math.random() * Math.PI * 2,
   }))
 }
 
 export function PixelStars({ contained = false }: { contained?: boolean }) {
-  const [shapes, setShapes] = useState<Shape[]>([])
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const animRef = useRef<number>(0)
+  const starsRef = useRef<Star[]>([])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setShapes(makeShapes(60))
-  }, [])
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
+
+    starsRef.current = makeStars(STAR_COUNT)
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1
+      const w = contained ? canvas!.parentElement!.clientWidth : window.innerWidth
+      const h = contained ? canvas!.parentElement!.clientHeight : window.innerHeight
+      canvas!.width = w * dpr
+      canvas!.height = h * dpr
+      canvas!.style.width = `${w}px`
+      canvas!.style.height = `${h}px`
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+
+    resize()
+    window.addEventListener("resize", resize)
+
+    function getForegroundColor() {
+      return getComputedStyle(document.documentElement).getPropertyValue("--foreground").trim()
+    }
+
+    function draw(time: number) {
+      const w = parseInt(canvas!.style.width)
+      const h = parseInt(canvas!.style.height)
+      ctx!.clearRect(0, 0, w, h)
+
+      const color = getForegroundColor()
+      const t = time / 1000
+
+      for (const star of starsRef.current) {
+        const twinkle = Math.sin(t * star.twinkleSpeed + star.twinkleOffset)
+        const opacity = star.baseOpacity + twinkle * 0.15
+
+        ctx!.fillStyle = color
+        ctx!.globalAlpha = Math.max(0.05, Math.min(0.6, opacity))
+
+        const px = star.x * w
+        const py = star.y * h
+
+        // Draw as small square pixels (scattered pattern like the reference)
+        ctx!.fillRect(Math.round(px), Math.round(py), star.size, star.size)
+      }
+
+      ctx!.globalAlpha = 1
+      animRef.current = requestAnimationFrame(draw)
+    }
+
+    animRef.current = requestAnimationFrame(draw)
+
+    return () => {
+      cancelAnimationFrame(animRef.current)
+      window.removeEventListener("resize", resize)
+    }
+  }, [contained])
 
   const cls = contained
     ? "absolute inset-0 overflow-hidden pointer-events-none"
     : "fixed inset-0 overflow-hidden pointer-events-none z-0"
 
-  return (
-    <div className={cls} aria-hidden="true">
-      {shapes.map(s => (
-        <span
-          key={s.id}
-          className="absolute font-mono select-none text-foreground star-twinkle"
-          style={{
-            left: `${s.x}%`,
-            top: `${s.y}%`,
-            fontSize: `${s.size}px`,
-            animationDelay: `${s.delay}s`,
-          }}
-        >
-          {s.char}
-        </span>
-      ))}
-    </div>
-  )
+  return <canvas ref={canvasRef} className={cls} aria-hidden="true" />
 }

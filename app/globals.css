@@ -213,21 +213,6 @@
     margin-left: 1px;
   }
 
-  /* ASCII star twinkle */
-  @keyframes twinkle {
-    0%,
-    100% {
-      opacity: 0.05;
-    }
-    50% {
-      opacity: 0.18;
-    }
-  }
-
-  .star-twinkle {
-    animation: twinkle 3s ease-in-out infinite;
-  }
-
   /* Planet loader: moon orbit */
   .loader-orbit {
     transform-origin: 40px 40px;
