@@ -1,7 +1,8 @@
 export const tagLabels: Record<string, string> = {
-  zk: "ZK Proofs",
+  zkp: "ZKP",
   fhe: "FHE",
+  mpc: "MPC",
+  blockchain: "Blockchain",
   infrastructure: "Infrastructure",
-  coordination: "Coordination",
-  "threshold-crypto": "Threshold Crypto",
+  library: "Library",
 }
