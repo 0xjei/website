@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
-import type { ComponentPropsWithoutRef } from "react"
+import type { ComponentPropsWithoutRef, ReactElement } from "react"
+import { MermaidDiagram } from "./mermaid-diagram"
 
 type AnchorProps = ComponentPropsWithoutRef<"a">
 
@@ -54,11 +55,18 @@ export const mdxComponents = {
       </code>
     )
   },
-  pre: ({ children }: ComponentPropsWithoutRef<"pre">) => (
-    <pre className="overflow-x-auto p-4 bg-muted/20 rounded text-xs leading-relaxed my-4 border border-muted-foreground/10">
-      {children}
-    </pre>
-  ),
+  pre: ({ children }: ComponentPropsWithoutRef<"pre">) => {
+    const child = children as ReactElement<{ className?: string; children?: string }>
+    const className = child?.props?.className ?? ""
+    if (className.includes("language-mermaid")) {
+      return <MermaidDiagram chart={child.props.children ?? ""} />
+    }
+    return (
+      <pre className="overflow-x-auto p-4 bg-muted/20 rounded text-xs leading-relaxed my-4 border border-muted-foreground/10">
+        {children}
+      </pre>
+    )
+  },
   hr: () => <hr className="border-muted-foreground/20 my-8" />,
   strong: ({ children }: ComponentPropsWithoutRef<"strong">) => (
     <strong className="font-semibold text-foreground">{children}</strong>
