@@ -2,6 +2,25 @@ import { getAllWritingsMeta } from "./mdx"
 import { presentations } from "./media"
 import { getAllLogMeta } from "./logbook"
 
+const MONTHS: Record<string, string> = {
+  january: "01",
+  february: "02",
+  march: "03",
+  april: "04",
+  may: "05",
+  june: "06",
+  july: "07",
+  august: "08",
+  september: "09",
+  october: "10",
+  november: "11",
+  december: "12",
+}
+
+function logDateSort(month: string, year: string): string {
+  return `${year}-${MONTHS[month.toLowerCase()] ?? "00"}`
+}
+
 export type RecentItem =
   | {
       type: "writing"
@@ -45,7 +64,7 @@ export function getRecentItems(limit = 8): RecentItem[] {
   const logs: RecentItem[] = getAllLogMeta().map(l => ({
     type: "log",
     title: l.title ?? `${l.month} ${l.year}`,
-    dateSort: l.slug,
+    dateSort: logDateSort(l.month, l.year),
     date: `${l.month} ${l.year}`,
     slug: l.slug,
   }))
