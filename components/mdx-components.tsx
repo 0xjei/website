@@ -12,6 +12,11 @@ export const mdxComponents = {
   h3: ({ children }: ComponentPropsWithoutRef<"h3">) => (
     <h3 className="text-sm font-semibold text-foreground mt-6 mb-1">{children}</h3>
   ),
+  h4: ({ children }: ComponentPropsWithoutRef<"h4">) => (
+    <h4 className="text-xs font-semibold text-foreground mt-4 mb-1 uppercase tracking-wide">
+      {children}
+    </h4>
+  ),
   p: ({ children }: ComponentPropsWithoutRef<"p">) => <p className="leading-relaxed">{children}</p>,
   a: ({ href, children, ...props }: AnchorProps) => {
     const isExternal = href?.startsWith("http")
