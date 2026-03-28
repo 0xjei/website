@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react"
 
-const STAR_COUNT = 80
-const PIXEL_SIZES = [2, 2, 2, 3, 3, 4] // weighted toward small
+const STAR_COUNT = 38
+const PIXEL_SIZES = [1, 1, 2, 2, 2, 3] // weighted toward small
 
 type Star = {
   x: number
@@ -19,8 +19,8 @@ function makeStars(count: number): Star[] {
     x: Math.random(),
     y: Math.random(),
     size: PIXEL_SIZES[Math.floor(Math.random() * PIXEL_SIZES.length)],
-    baseOpacity: 0.15 + Math.random() * 0.35,
-    twinkleSpeed: 0.5 + Math.random() * 2,
+    baseOpacity: 0.05 + Math.random() * 0.05,
+    twinkleSpeed: 0.2 + Math.random() * 0.5,
     twinkleOffset: Math.random() * Math.PI * 2,
   }))
 }
@@ -69,7 +69,7 @@ export function PixelStars({ contained = false }: { contained?: boolean }) {
         const opacity = star.baseOpacity + twinkle * 0.15
 
         ctx!.fillStyle = color
-        ctx!.globalAlpha = Math.max(0.05, Math.min(0.6, opacity))
+        ctx!.globalAlpha = Math.max(0.03, Math.min(0.5, opacity))
 
         const px = star.x * w
         const py = star.y * h
