@@ -114,6 +114,8 @@ export default async function Writing({ params }: { params: Promise<{ slug: stri
             >
               {meta.date.split(" ")[1]}
             </Link>
+            {" · "}
+            {Math.max(1, Math.round(content.split(/\s+/).length / 200))} min read
           </p>
           <div className="pt-2">
             <ArticleShare postUrl={postUrl} title={meta.title} />
