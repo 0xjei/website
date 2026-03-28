@@ -29,7 +29,7 @@ const experience: {
     years: "2025 – Present",
     projects: [
       {
-        title: "Enclave",
+        title: "The Interfold",
         description: (
           <p>
             I worked alongside cryptography researchers to solve the confidential coordination
@@ -55,7 +55,7 @@ const experience: {
             </a>{" "}
             (Noir) for verifiable DKG, encryption, decryption, and aggregation (folding and
             wrappers). I helped coordinate and execute the integration of crates and circuits inside
-            the Enclave.
+            the Interfold.
           </p>
         ),
         tags: ["Threshold FHE", "DKG", "ZKP", "Noir", "Rust"],
