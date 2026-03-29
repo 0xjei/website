@@ -1,6 +1,7 @@
 import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
+import { MONTH_NUM } from "./year-utils"
 
 const LOGS_DIR = path.join(process.cwd(), "contents", "logs")
 
@@ -20,7 +21,10 @@ export function getAllLogMeta(): LogMeta[] {
       const { data } = matter(raw)
       return { slug, ...data } as LogMeta
     })
-    .sort((a, b) => b.slug.localeCompare(a.slug))
+    .sort((a, b) => {
+      if (b.year !== a.year) return b.year.localeCompare(a.year)
+      return (MONTH_NUM[b.month.toLowerCase()] ?? 0) - (MONTH_NUM[a.month.toLowerCase()] ?? 0)
+    })
 }
 
 export function getLogContent(slug: string): {

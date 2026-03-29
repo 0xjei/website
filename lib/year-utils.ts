@@ -1,3 +1,23 @@
+export const MONTH_NUM: Record<string, number> = {
+  january: 1,
+  february: 2,
+  march: 3,
+  april: 4,
+  may: 5,
+  june: 6,
+  july: 7,
+  august: 8,
+  september: 9,
+  october: 10,
+  november: 11,
+  december: 12,
+}
+
+export function monthToSortable(month: string, year: string): string {
+  const num = MONTH_NUM[month.toLowerCase()] ?? 0
+  return `${year}-${String(num).padStart(2, "0")}`
+}
+
 export function groupByKey<T>(
   items: T[],
   getKey: (item: T) => string
