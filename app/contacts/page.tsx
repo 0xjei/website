@@ -118,7 +118,8 @@ export default function Contacts() {
       <section className="space-y-3">
         <SectionHeading>Support</SectionHeading>
         <p className="text-sm font-mono text-foreground/70 leading-relaxed">
-          If something here resonates with you and you would like to support my efforts, a small tip to{" "}
+          If something here resonates with you and you would like to support my efforts, a small tip
+          to{" "}
           <a
             href="https://etherscan.io/address/0xjei.eth"
             target="_blank"
@@ -126,8 +127,8 @@ export default function Contacts() {
             className="font-bold text-foreground hover:text-foreground transition-colors"
           >
             0xjei.eth
-          </a>
-          {" "}would be appreciated. Thank you!
+          </a>{" "}
+          would be appreciated. Thank you!
         </p>
       </section>
     </div>
