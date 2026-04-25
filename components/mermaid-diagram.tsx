@@ -6,7 +6,7 @@ import { useTheme } from "./theme-provider"
 // Serialize all mermaid renders to avoid initialize() race conditions
 let renderQueue = Promise.resolve()
 function enqueueRender(fn: () => Promise<void>) {
-  renderQueue = renderQueue.then(fn)
+  renderQueue = renderQueue.catch(() => undefined).then(fn)
   return renderQueue
 }
 
@@ -22,20 +22,27 @@ export function MermaidDiagram({ chart }: { chart: string }) {
     let cancelled = false
 
     function render() {
+      setRendered(false)
       enqueueRender(async () => {
         if (cancelled) return
-        const mermaid = (await import("mermaid")).default
-        mermaid.initialize({
-          startOnLoad: false,
-          theme: theme === "dark" ? "dark" : "default",
-          fontFamily: "var(--font-mono, monospace)",
-        })
-        // Use unique id per render to bypass mermaid's internal cache
-        const renderId = `m${id}${Date.now()}`
-        const { svg } = await mermaid.render(renderId, chart)
-        if (!cancelled && svgWrapRef.current) {
-          svgWrapRef.current.innerHTML = svg
-          setRendered(true)
+        try {
+          const mermaid = (await import("mermaid")).default
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: theme === "dark" ? "dark" : "default",
+            fontFamily: "var(--font-mono, monospace)",
+          })
+          // Use unique id per render to bypass mermaid's internal cache.
+          const renderId = `m${id}${Date.now()}`
+          const { svg } = await mermaid.render(renderId, chart)
+          if (!cancelled && svgWrapRef.current) {
+            svgWrapRef.current.innerHTML = svg
+            setRendered(true)
+          }
+        } catch {
+          if (!cancelled && svgWrapRef.current) {
+            svgWrapRef.current.innerHTML = ""
+          }
         }
       })
     }

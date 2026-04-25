@@ -14,6 +14,19 @@ export interface WritingMeta {
   kind?: "writing" | "research note"
 }
 
+function parseWritingMeta(slug: string, data: unknown): WritingMeta {
+  const input = (data ?? {}) as Record<string, unknown>
+  const title = typeof input.title === "string" && input.title.trim() ? input.title : slug
+  const date = typeof input.date === "string" ? input.date : ""
+  const dateSort = typeof input.dateSort === "string" ? input.dateSort : "0000-00"
+  const tags = Array.isArray(input.tags)
+    ? input.tags.filter((tag): tag is string => typeof tag === "string")
+    : []
+  const description = typeof input.description === "string" ? input.description : undefined
+  const kind = input.kind === "writing" || input.kind === "research note" ? input.kind : undefined
+  return { slug, title, date, dateSort, tags, description, kind }
+}
+
 export function getAllWritingsMeta(): WritingMeta[] {
   if (!fs.existsSync(WRITINGS_DIR)) return []
   const files = fs.readdirSync(WRITINGS_DIR).filter(f => f.endsWith(".mdx"))
@@ -22,7 +35,7 @@ export function getAllWritingsMeta(): WritingMeta[] {
       const slug = filename.replace(/\.mdx$/, "")
       const raw = fs.readFileSync(path.join(WRITINGS_DIR, filename), "utf8")
       const { data } = matter(raw)
-      return { slug, ...data } as WritingMeta
+      return parseWritingMeta(slug, data)
     })
     .sort((a, b) => b.dateSort.localeCompare(a.dateSort))
 }
@@ -34,5 +47,5 @@ export function getWritingContent(slug: string): {
   const filePath = path.join(WRITINGS_DIR, `${slug}.mdx`)
   const raw = fs.readFileSync(filePath, "utf8")
   const { data, content } = matter(raw)
-  return { meta: { slug, ...data } as WritingMeta, content }
+  return { meta: parseWritingMeta(slug, data), content }
 }
