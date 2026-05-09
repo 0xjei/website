@@ -17,8 +17,8 @@ export default function Home() {
           &ldquo;Navigating the dark matter of programmable cryptography&rdquo;
         </p>
         <p className="text-sm font-mono leading-relaxed text-foreground/70">
-          My work lies at the intersection between applied cryptography research and development. I
-          design and build privacy-preserving infrastructure, protocols and libraries for
+          My work lies at the intersection between applied cryptography research and development.
+          <br />I design and build privacy-preserving infrastructure, protocols and libraries for
           collaborative confidential computation.
         </p>
       </section>
@@ -39,25 +39,7 @@ export default function Home() {
                     [{item.kind ?? "writing"}]
                   </span>
                   <span className="flex-1 overflow-hidden sm:whitespace-nowrap min-w-0">
-                    <span className="font-mono text-sm font-bold text-foreground transition-colors uppercase tracking-wide">
-                      {item.title}
-                    </span>
-                    <span
-                      aria-hidden="true"
-                      className="hidden sm:inline font-mono text-sm text-muted-foreground/30"
-                    >
-                      {".".repeat(100)}
-                    </span>
-                  </span>
-                </Link>
-              ) : item.type === "log" ? (
-                <Link
-                  href={`/logbook/${item.slug}`}
-                  className="flex items-baseline py-1.5 group gap-2"
-                >
-                  <span className="font-mono text-xs text-muted-foreground shrink-0">[log]</span>
-                  <span className="flex-1 overflow-hidden sm:whitespace-nowrap min-w-0">
-                    <span className="font-mono text-sm font-bold text-foreground transition-colors uppercase tracking-wide">
+                    <span className="font-mono text-sm font-bold text-foreground transition-colors">
                       {item.title}
                     </span>
                     <span
@@ -77,7 +59,7 @@ export default function Home() {
                 >
                   <span className="font-mono text-xs text-muted-foreground shrink-0">[talk]</span>
                   <span className="flex-1 overflow-hidden sm:whitespace-nowrap min-w-0">
-                    <span className="font-mono text-sm font-bold text-foreground transition-colors uppercase tracking-wide">
+                    <span className="font-mono text-sm font-bold text-foreground transition-colors">
                       {item.title}
                     </span>
                     <span

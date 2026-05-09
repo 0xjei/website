@@ -1,12 +1,13 @@
 import Link from "next/link"
 import { getAllWritingsMeta } from "@/lib/mdx"
-import { tagLabels } from "@/lib/tags"
+import { tagLabels, writingMatchesListedTag } from "@/lib/tags"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 
 export function generateStaticParams() {
-  const tags = Array.from(new Set(getAllWritingsMeta().flatMap(w => w.tags)))
-  return tags.map(tag => ({ tag }))
+  const fromContent = getAllWritingsMeta().flatMap(w => w.tags)
+  const listed = Object.keys(tagLabels)
+  return Array.from(new Set([...listed, ...fromContent])).map(tag => ({ tag }))
 }
 
 export async function generateMetadata({
@@ -19,7 +20,7 @@ export async function generateMetadata({
   if (!label) return {}
   return {
     title: label,
-    description: `Essays tagged ${label}.`,
+    description: `Writings tagged ${label}.`,
   }
 }
 
@@ -28,7 +29,7 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
   const label = tagLabels[tag]
   if (!label) notFound()
 
-  const filtered = getAllWritingsMeta().filter(w => w.tags.includes(tag))
+  const filtered = getAllWritingsMeta().filter(w => writingMatchesListedTag(w, tag))
 
   return (
     <div className="space-y-8 stagger">
@@ -42,14 +43,9 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
       </nav>
 
       <header className="space-y-1">
-        <h1
-          className="text-2xl font-semibold text-foreground"
-          style={{ fontFamily: "var(--font-outfit), sans-serif" }}
-        >
-          {label}
-        </h1>
+        <h1 className="text-2xl font-semibold text-foreground">{label}</h1>
         <p className="text-xs font-mono text-muted-foreground">
-          {filtered.length} {filtered.length === 1 ? "essay" : "essays"}
+          {filtered.length} {filtered.length === 1 ? "entry" : "entries"}
         </p>
       </header>
 

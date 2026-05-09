@@ -1,6 +1,6 @@
 export function CopyrightNotice() {
   return (
-    <p className="text-xs font-mono text-muted-foreground/60 leading-relaxed">
+    <p className="text-xs font-mono text-muted-foreground/70 leading-relaxed">
       These writings are the product of human effort, licensed under{" "}
       <a
         href="https://creativecommons.org/licenses/by-sa/4.0/"

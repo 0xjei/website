@@ -7,34 +7,28 @@ type AnchorProps = ComponentPropsWithoutRef<"a">
 
 export const mdxComponents = {
   h2: ({ children }: ComponentPropsWithoutRef<"h2">) => (
-    <h2 className="text-base font-semibold text-foreground font-outfit mt-8 mb-2">{children}</h2>
+    <h2 className="text-xl font-bold leading-tight text-foreground mt-10 mb-3">{children}</h2>
   ),
   h3: ({ children }: ComponentPropsWithoutRef<"h3">) => (
-    <h3 className="text-sm font-semibold text-foreground mt-6 mb-1">{children}</h3>
+    <h3 className="text-lg font-bold leading-tight text-foreground mt-7 mb-2">{children}</h3>
   ),
   h4: ({ children }: ComponentPropsWithoutRef<"h4">) => (
-    <h4 className="text-xs font-semibold text-foreground mt-4 mb-1 uppercase tracking-wide">
-      {children}
-    </h4>
+    <h4 className="text-base font-bold leading-tight text-foreground mt-5 mb-1">{children}</h4>
   ),
   p: ({ children }: ComponentPropsWithoutRef<"p">) => <p className="leading-relaxed">{children}</p>,
   a: ({ href, children, ...props }: AnchorProps) => {
+    const linkClass =
+      "text-foreground underline underline-offset-[3px] decoration-1 decoration-foreground/60 hover:decoration-foreground hover:font-bold transition-colors"
     const isExternal = href?.startsWith("http")
     if (isExternal) {
       return (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-bold text-foreground transition-colors"
-          {...props}
-        >
+        <a href={href} target="_blank" rel="noopener noreferrer" className={linkClass} {...props}>
           {children}
         </a>
       )
     }
     return (
-      <Link href={href ?? "#"} className="font-bold text-foreground transition-colors">
+      <Link href={href ?? "#"} className={linkClass}>
         {children}
       </Link>
     )
@@ -46,7 +40,7 @@ export const mdxComponents = {
     <ol className="list-decimal list-outside ml-4 space-y-1">{children}</ol>
   ),
   blockquote: ({ children }: ComponentPropsWithoutRef<"blockquote">) => (
-    <blockquote className="border-l-2 border-muted-foreground/30 pl-4 italic text-muted-foreground my-4">
+    <blockquote className="my-6 px-6 py-3 italic text-foreground/80 bg-muted/30 border border-muted-foreground/15 rounded">
       {children}
     </blockquote>
   ),
@@ -67,23 +61,43 @@ export const mdxComponents = {
       return <MermaidDiagram chart={child.props.children ?? ""} />
     }
     return (
-      <pre className="overflow-x-auto p-4 bg-muted/20 rounded text-xs leading-relaxed my-4 border border-muted-foreground/10">
+      <pre className="overflow-x-auto p-4 bg-muted/20 rounded text-sm leading-relaxed my-4 border border-muted-foreground/10">
         {children}
       </pre>
     )
   },
   hr: () => <hr className="border-muted-foreground/20 my-8" />,
   strong: ({ children }: ComponentPropsWithoutRef<"strong">) => (
-    <strong className="font-semibold text-foreground">{children}</strong>
+    <strong className="font-bold text-foreground">{children}</strong>
   ),
 
-  img: ({ src, alt, width, height }: ComponentPropsWithoutRef<"img">) => (
-    <Image
-      src={String(src ?? "")}
-      alt={alt ?? ""}
-      width={Number(width) || 800}
-      height={Number(height) || 600}
-      className="max-w-full h-auto rounded my-6"
-    />
-  ),
+  img: ({ src, alt, width, height, className }: ComponentPropsWithoutRef<"img">) => {
+    const imageSrc = String(src ?? "")
+    const isRemote = /^https?:\/\//.test(imageSrc)
+    const imageClassName = `max-w-full h-auto rounded my-6 ${className ?? ""}`.trim()
+
+    if (isRemote) {
+      return (
+        <img
+          src={imageSrc}
+          alt={alt ?? ""}
+          width={width}
+          height={height}
+          className={imageClassName}
+          loading="lazy"
+          decoding="async"
+        />
+      )
+    }
+
+    return (
+      <Image
+        src={imageSrc}
+        alt={alt ?? ""}
+        width={Number(width) || 800}
+        height={Number(height) || 600}
+        className={imageClassName}
+      />
+    )
+  },
 }

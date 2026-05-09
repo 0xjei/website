@@ -89,9 +89,7 @@ export default async function Writing({ params }: { params: Promise<{ slug: stri
         </nav>
 
         <header className="space-y-2">
-          <h1 className="text-2xl font-semibold leading-snug text-foreground font-outfit">
-            {meta.title}
-          </h1>
+          <h1 className="text-2xl font-semibold leading-snug text-foreground">{meta.title}</h1>
           {meta.tags.length > 0 && (
             <p className="text-xs font-mono text-muted-foreground">
               {meta.tags.map((tag, i) => (
@@ -122,7 +120,7 @@ export default async function Writing({ params }: { params: Promise<{ slug: stri
           </div>
         </header>
 
-        <div className="space-y-4 text-sm font-mono leading-relaxed text-foreground/80">
+        <div className="prose-mono space-y-4 text-sm font-mono leading-relaxed text-foreground">
           <MDXRemote
             source={content}
             options={{

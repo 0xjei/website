@@ -174,8 +174,8 @@ const sections: { title: string; items: MaterialItem[] }[] = [
 
 export default function Readings() {
   return (
-    <div className="space-y-10 stagger">
-      <p className="text-sm font-mono text-muted-foreground italic">
+    <div className="space-y-8 stagger">
+      <p className="text-sm font-mono text-muted-foreground italic leading-relaxed">
         Books, papers, and essays that have shaped how I think and see the world.
       </p>
 
@@ -198,12 +198,14 @@ export default function Readings() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm font-mono text-foreground/80 hover:text-foreground hover:font-bold transition-colors"
+                      className="text-sm font-mono font-bold text-foreground hover:font-bold transition-colors"
                     >
                       {item.title}
                     </Link>
                   ) : (
-                    <span className="text-sm font-mono text-foreground/80">{item.title}</span>
+                    <span className="text-sm font-mono font-bold text-foreground">
+                      {item.title}
+                    </span>
                   )}
                 </li>
               ))}

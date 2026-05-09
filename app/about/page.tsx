@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function About() {
   return (
     <div className="space-y-10 stagger">
-      <p className="text-sm font-mono text-muted-foreground italic">
+      <p className="text-sm font-mono text-muted-foreground italic leading-relaxed">
         Who I am, What I do, and, Why I do it.
       </p>
 
@@ -40,7 +40,7 @@ export default function About() {
         <p className="text-sm font-mono leading-relaxed text-foreground/70">
           I design and implement systems that use programmable cryptography (ZKP, MPC, FHE) and
           blockchain to build privacy-preserving infrastructure and protocols. My work sits at the
-          intersection between cryptography research and production engineering — I take primitives
+          intersection between cryptography research and production engineering. I take primitives
           from papers and turn them into systems that developers can actually use.
           <br />
           <br />
@@ -65,7 +65,9 @@ export default function About() {
           <br />
           <br />
           As systems become more centralized and surveillance-capable, we need infrastructure that
-          shifts power back to individuals and communities. <br />
+          shifts power back to individuals and communities.
+          <br />
+          <br />
           Programmable cryptography is how we enable groups to work together in a privacy-preserving
           way, while blockchain is how we enable them to coordinate and collaborate without a
           central authority.

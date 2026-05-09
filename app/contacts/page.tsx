@@ -10,7 +10,9 @@ export const metadata: Metadata = {
 export default function Contacts() {
   return (
     <div className="space-y-8 stagger">
-      <p className="text-sm font-mono text-muted-foreground italic">Let&apos;s get in touch.</p>
+      <p className="text-sm font-mono text-muted-foreground italic leading-relaxed">
+        Let&apos;s get in touch.
+      </p>
 
       <section className="space-y-3">
         <SectionHeading>Reach Out</SectionHeading>
@@ -47,24 +49,6 @@ export default function Contacts() {
                 className="hover:text-foreground hover:font-bold transition-colors"
               >
                 X
-              </a>
-              ,{" "}
-              <a
-                href="https://mastodon.uno/@0xjei"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-foreground hover:font-bold transition-colors"
-              >
-                Mastodon
-              </a>
-              ,{" "}
-              <a
-                href="https://bsky.app/profile/0xjei.dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-foreground hover:font-bold transition-colors"
-              >
-                Bluesky
               </a>
               ,{" "}
               <a

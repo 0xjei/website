@@ -23,7 +23,7 @@ const notLookingFor = [
 export default function Collaborate() {
   return (
     <div className="space-y-8 stagger">
-      <p className="text-sm font-mono text-muted-foreground italic">
+      <p className="text-sm font-mono text-muted-foreground italic leading-relaxed">
         Open to R&D collaborations on programmable cryptography & blockchain, AI & agents.
       </p>
 

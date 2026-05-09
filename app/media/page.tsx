@@ -29,7 +29,7 @@ export default async function Media({
 
   return (
     <div className="space-y-8 stagger">
-      <p className="text-sm font-mono text-muted-foreground italic">
+      <p className="text-sm font-mono text-muted-foreground italic leading-relaxed">
         Recordings of my talks and presentations.
       </p>
 
@@ -55,14 +55,12 @@ export default async function Media({
                         href={p.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-base font-semibold text-foreground font-outfit transition-colors"
+                        className="text-sm font-mono font-bold text-foreground transition-colors"
                       >
                         {p.title}
                       </a>
                     ) : (
-                      <h3 className="text-base font-semibold text-foreground font-outfit">
-                        {p.title}
-                      </h3>
+                      <h3 className="text-sm font-mono font-bold text-foreground">{p.title}</h3>
                     )}
                     {p.event && (
                       <span className="text-xs font-mono text-muted-foreground shrink-0">
@@ -71,7 +69,7 @@ export default async function Media({
                     )}
                   </div>
                   {p.description && (
-                    <p className="text-xs font-mono leading-relaxed text-foreground/70">
+                    <p className="text-sm font-mono leading-relaxed text-foreground/70">
                       {p.description}
                     </p>
                   )}
@@ -90,7 +88,9 @@ export default async function Media({
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/55 transition-colors">
-                        <span className="text-white text-xs font-mono">[▶ watch on youtube]</span>
+                        <span className="text-zinc-100 text-xs font-mono">
+                          [▶ watch on youtube]
+                        </span>
                       </div>
                     </a>
                   )}

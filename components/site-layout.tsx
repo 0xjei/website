@@ -11,7 +11,6 @@ const nav = [
   { href: "/experience", label: "experience", matches: ["/experience"] },
   { href: "/writings", label: "writings", matches: ["/writings"] },
   { href: "/media", label: "talks", matches: ["/media"] },
-  { href: "/logbook", label: "logbook", matches: ["/logbook"] },
   { href: "/collaborate", label: "collaborate", matches: ["/collaborate"] },
   { href: "/readings", label: "readings", matches: ["/readings"] },
   { href: "/about", label: "about", matches: ["/about"] },
@@ -72,7 +71,10 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       {/* Mobile header */}
       <header className="lg:hidden border-b border-border px-6 py-5 bg-background relative z-10">
         <div className="flex items-center justify-between">
-          <Link href="/" className="text-base font-mono font-semibold text-foreground">
+          <Link
+            href="/"
+            className="text-base font-anonymous font-semibold text-foreground hover:font-bold transition-colors"
+          >
             0xjei
           </Link>
           <div className="flex items-center gap-4">
@@ -94,7 +96,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center justify-between border-b border-border pb-5">
             <Link
               href="/"
-              className="text-base font-mono font-semibold text-foreground"
+              className="text-base font-anonymous font-semibold text-foreground"
               onClick={() => setMenuOpen(false)}
             >
               0xjei
@@ -114,7 +116,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMenuOpen(false)}
-                className={`text-2xl font-mono transition-colors ${
+                className={`text-base font-mono transition-colors ${
                   isActive(item)
                     ? "text-foreground font-bold underline underline-offset-2"
                     : "text-muted-foreground hover:text-foreground hover:font-bold"
@@ -132,7 +134,10 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex flex-col shrink-0 border-r border-border px-8 py-10 sticky top-0 h-screen overflow-hidden bg-background relative z-10">
         {/* Name */}
-        <Link href="/" className="text-sm font-mono font-semibold text-foreground mb-8 block">
+        <Link
+          href="/"
+          className="text-sm font-anonymous font-semibold text-foreground hover:font-bold transition-colors mb-8 block"
+        >
           0xjei
         </Link>
 
@@ -159,7 +164,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
 
       {/* Content area */}
       <main id="main-content" className="flex-1 relative px-6 py-10 lg:px-16 lg:py-12" role="main">
-        <div className="relative z-10 max-w-xl">{children}</div>
+        <div className="relative z-10 mx-auto w-full max-w-3xl">{children}</div>
       </main>
     </div>
   )

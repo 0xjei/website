@@ -1,6 +1,7 @@
 import { Suspense } from "react"
 import Link from "next/link"
 import { getAllWritingsMeta } from "@/lib/mdx"
+import { writingMatchesListedTag } from "@/lib/tags"
 import { TagFilter } from "@/components/tag-filter"
 import { YearLink } from "@/components/year-link"
 import { groupByKey } from "@/lib/year-utils"
@@ -27,7 +28,8 @@ function buildKindHref(tags: string[], year: string, selectedKind: string, toggl
 
 export const metadata: Metadata = {
   title: "Writings",
-  description: "My essays & research notes on cryptography, society and technology.",
+  description:
+    "Essays, research notes, and monthly logbook entries on cryptography, society and technology — filter by tag (e.g. Logbook) or kind.",
 }
 
 export default async function Writings({
@@ -47,7 +49,7 @@ export default async function Writings({
   const tagFiltered =
     selectedTags.length === 0
       ? yearFiltered
-      : yearFiltered.filter(w => w.tags.some(t => selectedTags.includes(t)))
+      : yearFiltered.filter(w => selectedTags.every(t => writingMatchesListedTag(w, t)))
   const filtered = selectedKind
     ? tagFiltered.filter(w => (w.kind ?? "writing") === selectedKind)
     : tagFiltered
@@ -55,8 +57,16 @@ export default async function Writings({
 
   return (
     <div className="space-y-8 stagger">
-      <p className="text-sm font-mono text-muted-foreground italic">
-        My essays & research notes on cryptography, society and technology.
+      <p className="text-sm font-mono text-muted-foreground italic leading-relaxed">
+        Essays, research notes, and monthly reflections — shortcut:{" "}
+        <Link href="/writings?tags=writing" className="underline underline-offset-2">
+          Writing
+        </Link>
+        {" · "}
+        <Link href="/writings?tags=logbook" className="underline underline-offset-2">
+          Logbook
+        </Link>
+        .
       </p>
       <CopyrightNotice />
 
@@ -108,7 +118,7 @@ export default async function Writings({
                       </Link>
                       <Link
                         href={`/writings/${writing.slug}`}
-                        className="font-mono text-sm font-bold text-foreground transition-colors uppercase tracking-wide"
+                        className="font-mono text-sm font-bold text-foreground transition-colors"
                       >
                         {writing.title}
                       </Link>

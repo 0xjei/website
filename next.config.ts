@@ -6,6 +6,56 @@ const nextConfig: NextConfig = {
   // Enable React strict mode for highlighting potential problems
   reactStrictMode: true,
 
+  async redirects() {
+    return [
+      {
+        source: "/logbook",
+        destination: "/writings?tags=logbook",
+        permanent: true,
+      },
+      {
+        source: "/logbook/:slug",
+        destination: "/writings/:slug",
+        permanent: true,
+      },
+      {
+        source: "/writings/tag/zkp",
+        destination: "/writings?tags=cryptography",
+        permanent: true,
+      },
+      {
+        source: "/writings/tag/mpc",
+        destination: "/writings?tags=cryptography",
+        permanent: true,
+      },
+      {
+        source: "/writings/tag/fhe",
+        destination: "/writings?tags=cryptography",
+        permanent: true,
+      },
+      {
+        source: "/writings/tag/infrastructure",
+        destination: "/writings?tags=engineering",
+        permanent: true,
+      },
+      {
+        source: "/writings/tag/library",
+        destination: "/writings",
+        permanent: true,
+      },
+      {
+        source: "/writings/tag/llm",
+        destination: "/writings?tags=ai",
+        permanent: true,
+      },
+      {
+        source: "/writings/tag/software",
+        destination: "/writings?tags=engineering",
+        permanent: true,
+      },
+    ]
+  },
+
   // Optimize images
   images: {
     formats: ["image/avif", "image/webp"],

@@ -1,7 +1,5 @@
 import { getAllWritingsMeta } from "./mdx"
 import { presentations } from "./media"
-import { getAllLogMeta } from "./logbook"
-import { monthToSortable } from "./year-utils"
 
 export type RecentItem =
   | {
@@ -18,13 +16,6 @@ export type RecentItem =
       dateSort: string
       date: string
       href: string
-    }
-  | {
-      type: "log"
-      title: string
-      dateSort: string
-      date: string
-      slug: string
     }
 
 export function getRecentItems(limit = 8): RecentItem[] {
@@ -43,14 +34,7 @@ export function getRecentItems(limit = 8): RecentItem[] {
     date: w.date,
     href: w.link ?? w.embedUrl ?? "#",
   }))
-  const logs: RecentItem[] = getAllLogMeta().map(l => ({
-    type: "log",
-    title: l.title ?? `${l.month} ${l.year}`,
-    dateSort: monthToSortable(l.month, l.year),
-    date: `${l.month} ${l.year}`,
-    slug: l.slug,
-  }))
-  const merged = [...writings, ...videos, ...logs].sort((a, b) =>
+  const merged = [...writings, ...videos].sort((a, b) =>
     b.dateSort > a.dateSort ? 1 : b.dateSort < a.dateSort ? -1 : 0
   )
   return merged.slice(0, limit)

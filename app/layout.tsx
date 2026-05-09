@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { Anonymous_Pro, Outfit } from "next/font/google"
+import { Anonymous_Pro, Space_Mono } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LoadingProvider } from "@/components/loading-context"
@@ -13,9 +13,10 @@ const anonymousPro = Anonymous_Pro({
   display: "swap",
 })
 
-const outfit = Outfit({
+const spaceMono = Space_Mono({
+  weight: ["400", "700"],
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-space-mono",
   display: "swap",
 })
 
@@ -101,8 +102,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F7F5F0" },
-    { media: "(prefers-color-scheme: dark)", color: "#101418" },
+    { media: "(prefers-color-scheme: light)", color: "#EFF1F9" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B0E16" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -126,7 +127,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed.xml" />
       </head>
-      <body className={`${anonymousPro.variable} ${outfit.variable} antialiased`}>
+      <body className={`${anonymousPro.variable} ${spaceMono.variable} antialiased`}>
         <ThemeProvider>
           <LoadingProvider>
             <a

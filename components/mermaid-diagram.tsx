@@ -154,7 +154,7 @@ export function MermaidDiagram({ chart }: { chart: string }) {
       {rendered && (
         <button
           onClick={reset}
-          className="text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
+          className="text-xs font-mono text-muted-foreground hover:text-foreground hover:font-bold transition-colors"
         >
           reset view
         </button>

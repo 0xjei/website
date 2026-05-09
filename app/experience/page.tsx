@@ -413,7 +413,7 @@ const hackathons: {
 export default function Experience() {
   return (
     <div className="space-y-10 stagger">
-      <p className="text-sm font-mono text-muted-foreground italic">
+      <p className="text-sm font-mono text-muted-foreground italic leading-relaxed">
         Experience, hackathons, and education. All open-source code is on{" "}
         <a
           href="https://github.com/0xjei"
@@ -427,12 +427,12 @@ export default function Experience() {
       </p>
 
       <section className="space-y-8">
-        <h2 className="text-lg font-semibold text-foreground font-outfit">Experience</h2>
+        <h2 className="text-lg font-semibold text-foreground">Experience</h2>
         <ul className="space-y-10">
           {experience.map((entry, i) => (
             <li key={i} className="space-y-4">
               {/* Role */}
-              <h3 className="text-base font-semibold text-foreground font-outfit">{entry.role}</h3>
+              <h3 className="text-sm font-semibold text-foreground">{entry.role}</h3>
               {/* Company + years */}
               <div className="flex items-baseline justify-between gap-4 -mt-2">
                 <p className="text-xs font-mono text-muted-foreground">
@@ -461,7 +461,7 @@ export default function Experience() {
                 {entry.projects.map((project, j) => (
                   <li key={j} className="space-y-2">
                     <div className="flex items-baseline justify-between gap-4">
-                      <p className="font-mono text-sm font-semibold text-foreground">
+                      <p className="font-mono text-sm font-bold text-foreground">
                         {project.github ? (
                           <a
                             href={project.github}
@@ -497,7 +497,7 @@ export default function Experience() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-lg font-semibold text-foreground font-outfit">Hackathons</h2>
+        <h2 className="text-lg font-semibold text-foreground">Hackathons</h2>
         <ul className="space-y-2">
           {hackathons.map((h, i) => (
             <li key={i} className="flex items-baseline gap-3 font-mono text-sm">
@@ -508,7 +508,7 @@ export default function Experience() {
                     href={h.eventHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-foreground transition-colors"
+                    className="hover:text-foreground hover:font-bold transition-colors"
                   >
                     {h.event}
                   </a>
@@ -522,7 +522,7 @@ export default function Experience() {
                       href={h.project.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-foreground transition-colors"
+                      className="hover:text-foreground hover:font-bold transition-colors"
                     >
                       {h.project.name}
                     </a>
@@ -537,7 +537,7 @@ export default function Experience() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-lg font-semibold text-foreground font-outfit">Education</h2>
+        <h2 className="text-lg font-semibold text-foreground">Education</h2>
         <ul className="space-y-4">
           {education.map((e, i) => (
             <li key={i} className="space-y-0.5">

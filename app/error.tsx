@@ -17,8 +17,8 @@ export default function Error({
   return (
     <div className="space-y-6 stagger">
       <p className="text-xs font-mono text-muted-foreground">500</p>
-      <h1 className="text-2xl font-semibold text-foreground font-outfit">Something went wrong</h1>
-      <p className="text-sm font-mono text-foreground/70 leading-relaxed">
+      <h1 className="text-2xl font-semibold text-foreground">Something went wrong</h1>
+      <p className="text-sm font-mono text-muted-foreground leading-relaxed">
         An unexpected error occurred. Please try again or go back home.
       </p>
       <div className="flex gap-4">
