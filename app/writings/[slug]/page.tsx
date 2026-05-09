@@ -97,7 +97,7 @@ export default async function Writing({ params }: { params: Promise<{ slug: stri
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <article className="space-y-8 stagger">
+      <article id="writing-top" className="space-y-8 stagger scroll-mt-24">
         <nav aria-label="Breadcrumb">
           <Link
             href="/writings"
@@ -150,11 +150,8 @@ export default async function Writing({ params }: { params: Promise<{ slug: stri
           {mainBody.trim() !== "" && <MDXRemote source={mainBody} {...mdxRemoteProps} />}
         </div>
 
-        {(prevWriting || nextWriting) && (
-          <nav
-            className="flex items-center justify-between gap-4 pt-2"
-            aria-label="Post navigation"
-          >
+        <nav className="grid grid-cols-3 items-center gap-4 pt-2" aria-label="Post navigation">
+          <div className="min-h-[1.25rem] justify-self-start">
             {prevWriting ? (
               <Link
                 href={`/writings/${prevWriting.slug}`}
@@ -162,9 +159,15 @@ export default async function Writing({ params }: { params: Promise<{ slug: stri
               >
                 prev
               </Link>
-            ) : (
-              <span />
-            )}
+            ) : null}
+          </div>
+          <a
+            href="#writing-top"
+            className="justify-self-center text-center text-xs font-mono text-muted-foreground hover:text-foreground hover:font-bold transition-colors"
+          >
+            top
+          </a>
+          <div className="min-h-[1.25rem] justify-self-end">
             {nextWriting ? (
               <Link
                 href={`/writings/${nextWriting.slug}`}
@@ -172,11 +175,9 @@ export default async function Writing({ params }: { params: Promise<{ slug: stri
               >
                 next
               </Link>
-            ) : (
-              <span />
-            )}
-          </nav>
-        )}
+            ) : null}
+          </div>
+        </nav>
       </article>
     </>
   )
