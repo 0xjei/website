@@ -1,12 +1,16 @@
 import "katex/dist/katex.min.css"
 import Link from "next/link"
 import { getAllWritingsMeta, getWritingContent } from "@/lib/mdx"
+import { proseHorizontalRuleClass } from "@/lib/prose-classes"
 import { tagLabels } from "@/lib/tags"
 import { ArticleShare } from "@/components/article-share"
 import { mdxComponents } from "@/components/mdx-components"
+import { WritingToc } from "@/components/writing-toc"
+import { extractWritingToc, splitLeadingBlockquote } from "@/lib/writing-toc"
 import { MDXRemote } from "next-mdx-remote/rsc"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
+import rehypeSlug from "rehype-slug"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { siteUrl } from "@/lib/site"
@@ -62,6 +66,21 @@ export default async function Writing({ params }: { params: Promise<{ slug: stri
   const currentIndex = allWritings.findIndex(w => w.slug === slug)
   const prevWriting = currentIndex > 0 ? allWritings[currentIndex - 1] : null
   const nextWriting = currentIndex < allWritings.length - 1 ? allWritings[currentIndex + 1] : null
+
+  const tocEntries = meta.kind !== "logbook" ? extractWritingToc(content) : []
+
+  const { lead: ackLead, body: mainBody } =
+    meta.kind === "logbook" ? { lead: "", body: content } : splitLeadingBlockquote(content)
+
+  const mdxRemoteProps = {
+    options: {
+      mdxOptions: {
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeSlug, rehypeKatex],
+      },
+    },
+    components: mdxComponents,
+  }
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -121,16 +140,14 @@ export default async function Writing({ params }: { params: Promise<{ slug: stri
         </header>
 
         <div className="prose-mono space-y-4 text-sm font-mono leading-relaxed text-foreground">
-          <MDXRemote
-            source={content}
-            options={{
-              mdxOptions: {
-                remarkPlugins: [remarkMath],
-                rehypePlugins: [rehypeKatex],
-              },
-            }}
-            components={mdxComponents}
-          />
+          {ackLead.trim() !== "" && (
+            <>
+              <MDXRemote source={ackLead} {...mdxRemoteProps} />
+              <hr className={proseHorizontalRuleClass} />
+            </>
+          )}
+          {tocEntries.length > 0 && <WritingToc entries={tocEntries} />}
+          {mainBody.trim() !== "" && <MDXRemote source={mainBody} {...mdxRemoteProps} />}
         </div>
 
         {(prevWriting || nextWriting) && (

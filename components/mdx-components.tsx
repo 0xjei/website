@@ -1,3 +1,4 @@
+import { proseHorizontalRuleClass } from "@/lib/prose-classes"
 import Image from "next/image"
 import Link from "next/link"
 import type { ComponentPropsWithoutRef, ReactElement } from "react"
@@ -6,14 +7,32 @@ import { MermaidDiagram } from "./mermaid-diagram"
 type AnchorProps = ComponentPropsWithoutRef<"a">
 
 export const mdxComponents = {
-  h2: ({ children }: ComponentPropsWithoutRef<"h2">) => (
-    <h2 className="text-xl font-bold leading-tight text-foreground mt-10 mb-3">{children}</h2>
+  h2: ({ children, id, ...props }: ComponentPropsWithoutRef<"h2">) => (
+    <h2
+      id={id}
+      className="scroll-mt-20 text-xl font-bold leading-tight text-foreground mt-10 mb-3"
+      {...props}
+    >
+      {children}
+    </h2>
   ),
-  h3: ({ children }: ComponentPropsWithoutRef<"h3">) => (
-    <h3 className="text-lg font-bold leading-tight text-foreground mt-7 mb-2">{children}</h3>
+  h3: ({ children, id, ...props }: ComponentPropsWithoutRef<"h3">) => (
+    <h3
+      id={id}
+      className="scroll-mt-20 text-lg font-bold leading-tight text-foreground mt-7 mb-2"
+      {...props}
+    >
+      {children}
+    </h3>
   ),
-  h4: ({ children }: ComponentPropsWithoutRef<"h4">) => (
-    <h4 className="text-base font-bold leading-tight text-foreground mt-5 mb-1">{children}</h4>
+  h4: ({ children, id, ...props }: ComponentPropsWithoutRef<"h4">) => (
+    <h4
+      id={id}
+      className="scroll-mt-20 text-base font-bold leading-tight text-foreground mt-5 mb-1"
+      {...props}
+    >
+      {children}
+    </h4>
   ),
   p: ({ children }: ComponentPropsWithoutRef<"p">) => <p className="leading-relaxed">{children}</p>,
   a: ({ href, children, ...props }: AnchorProps) => {
@@ -40,7 +59,7 @@ export const mdxComponents = {
     <ol className="list-decimal list-outside ml-4 space-y-1">{children}</ol>
   ),
   blockquote: ({ children }: ComponentPropsWithoutRef<"blockquote">) => (
-    <blockquote className="my-6 px-6 py-3 italic text-foreground/80 bg-muted/30 border border-muted-foreground/15 rounded">
+    <blockquote className="my-6 space-y-3 border-l-2 border-muted-foreground/35 pl-5 font-mono text-sm leading-relaxed text-foreground [&_p]:m-0 [&_p+p]:mt-3">
       {children}
     </blockquote>
   ),
@@ -66,7 +85,7 @@ export const mdxComponents = {
       </pre>
     )
   },
-  hr: () => <hr className="border-muted-foreground/20 my-8" />,
+  hr: () => <hr className={proseHorizontalRuleClass} />,
   strong: ({ children }: ComponentPropsWithoutRef<"strong">) => (
     <strong className="font-bold text-foreground">{children}</strong>
   ),
