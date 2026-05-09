@@ -1,5 +1,6 @@
 import { PlanetSeparator } from "@/components/planet-separator"
 import Link from "next/link"
+import { writingRowDotLeader } from "@/lib/writing-list"
 import { getRecentItems, recentItemKey } from "@/lib/recent"
 
 export default function Home() {
@@ -46,7 +47,7 @@ export default function Home() {
                       aria-hidden="true"
                       className="hidden sm:inline font-mono text-sm text-muted-foreground/30"
                     >
-                      {".".repeat(100)}
+                      {writingRowDotLeader}
                     </span>
                   </span>
                 </Link>
@@ -66,7 +67,7 @@ export default function Home() {
                       aria-hidden="true"
                       className="hidden sm:inline font-mono text-sm text-muted-foreground/30"
                     >
-                      {".".repeat(100)}
+                      {writingRowDotLeader}
                     </span>
                   </span>
                 </a>

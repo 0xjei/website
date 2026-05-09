@@ -2,6 +2,7 @@ import { Suspense } from "react"
 import Link from "next/link"
 import { getAllWritingsMeta } from "@/lib/mdx"
 import { writingMatchesListedTag } from "@/lib/tags"
+import { writingRowDotLeader } from "@/lib/writing-list"
 import { TagFilter } from "@/components/tag-filter"
 import { YearLink } from "@/components/year-link"
 import { groupByKey } from "@/lib/year-utils"
@@ -118,9 +119,19 @@ export default async function Writings({
                       </Link>
                       <Link
                         href={`/writings/${writing.slug}`}
-                        className="font-mono text-sm font-bold text-foreground transition-colors"
+                        className="group flex flex-1 min-w-0 items-baseline"
                       >
-                        {writing.title}
+                        <span className="flex-1 overflow-hidden sm:whitespace-nowrap min-w-0">
+                          <span className="font-mono text-sm font-bold text-foreground transition-colors">
+                            {writing.title}
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            className="hidden sm:inline font-mono text-sm text-muted-foreground/30"
+                          >
+                            {writingRowDotLeader}
+                          </span>
+                        </span>
                       </Link>
                     </div>
                   </li>
