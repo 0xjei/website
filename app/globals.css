@@ -36,27 +36,27 @@
 }
 
 :root {
-  /* Daylight terminal: airy blue near 240°, chroma eased so it stays calm in sun */
-  --background: oklch(0.977 0.009 246);
-  /* Same contrast as before — ink nudged less violet */
-  --foreground: oklch(0.188 0.026 266);
-  --muted: oklch(0.949 0.011 248);
-  /* Muted UI text: slightly less saturation, still readable */
-  --muted-foreground: oklch(0.5 0.018 258);
-  --border: oklch(0.805 0.017 252);
-  --ring: oklch(0.188 0.026 266);
+  /* Daylight: slightly less bright bg, eased chroma — body copy separates more clearly */
+  --background: oklch(0.97 0.007 246);
+  /* Ink: lower L + chroma vs airy bg (same idea as dark: reduce hue competition) */
+  --foreground: oklch(0.14 0.016 266);
+  --muted: oklch(0.94 0.01 248);
+  /* Secondary / nav: darker so /50 and /70 stacks stay legible on paper */
+  --muted-foreground: oklch(0.42 0.014 258);
+  --border: oklch(0.72 0.015 252);
+  --ring: oklch(0.14 0.016 266);
 }
 
 .dark {
-  /* Deep space — blue-black void */
-  --background: oklch(0.102 0.038 272);
-  /* Starfield text — cool moonlight */
-  --foreground: oklch(0.928 0.016 262);
-  --muted: oklch(0.175 0.042 278);
-  /* Brighter mist for metadata / de-emphasized copy */
-  --muted-foreground: oklch(0.785 0.028 268);
-  --border: oklch(0.31 0.048 278);
-  --ring: oklch(0.88 0.024 268);
+  /* Deep space — slightly darker, less chroma so body copy reads cleaner */
+  --background: oklch(0.095 0.03 272);
+  /* Primary text: higher L, lower chroma vs bg (less simultaneous-contrast washout) */
+  --foreground: oklch(0.98 0.006 262);
+  --muted: oklch(0.17 0.038 278);
+  /* Secondary / nav: lifted so /50 and /70 opacity stacks stay legible */
+  --muted-foreground: oklch(0.86 0.018 268);
+  --border: oklch(0.34 0.042 278);
+  --ring: oklch(0.93 0.016 268);
 }
 
 /* Hide native cursor on pointer devices — replaced by CustomCursor */
