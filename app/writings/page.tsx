@@ -30,7 +30,7 @@ function buildKindHref(tags: string[], year: string, selectedKind: string, toggl
 export const metadata: Metadata = {
   title: "Writings",
   description:
-    "Essays, research notes, and monthly logbook entries on cryptography, society and technology — filter by tag (e.g. Logbook) or kind.",
+    "Essays, notes, and monthly logbook entries on cryptography, society and technology — filter by tag (e.g. Notes, Logbook) or kind.",
 }
 
 export default async function Writings({
@@ -59,9 +59,13 @@ export default async function Writings({
   return (
     <div className="space-y-8 stagger">
       <p className="text-sm font-mono text-muted-foreground italic leading-relaxed">
-        Essays, research notes, and monthly reflections — shortcut:{" "}
+        Essays, notes, and monthly reflections — shortcut:{" "}
         <Link href="/writings?tags=writing" className="underline underline-offset-2">
           Writing
+        </Link>
+        {" · "}
+        <Link href="/writings?tags=notes" className="underline underline-offset-2">
+          Notes
         </Link>
         {" · "}
         <Link href="/writings?tags=logbook" className="underline underline-offset-2">
@@ -80,8 +84,8 @@ export default async function Writings({
       {years.length === 0 ? (
         writings.length === 0 ? (
           <p className="text-sm font-mono font-bold italic text-foreground leading-relaxed">
-            There is nothing here yet, but you will soon find research notes, essays, and technical
-            deep dives on programmable cryptography & blockchain, AI & agents.{" "}
+            There is nothing here yet, but you will soon find notes, essays, and technical deep
+            dives on programmable cryptography & blockchain, AI & agents.{" "}
           </p>
         ) : (
           <p className="text-sm font-mono text-muted-foreground">

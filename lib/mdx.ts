@@ -14,7 +14,7 @@ export interface WritingMeta {
   dateSort: string
   tags: string[]
   description?: string
-  kind?: "writing" | "research note" | "logbook"
+  kind?: "writing" | "notes" | "logbook"
 }
 
 function parseWritingMeta(slug: string, data: unknown): WritingMeta {
@@ -27,7 +27,7 @@ function parseWritingMeta(slug: string, data: unknown): WritingMeta {
     : []
   const description = typeof input.description === "string" ? input.description : undefined
   const kind =
-    input.kind === "writing" || input.kind === "research note" || input.kind === "logbook"
+    input.kind === "writing" || input.kind === "notes" || input.kind === "logbook"
       ? input.kind
       : undefined
   return { slug, title, date, dateSort, tags, description, kind }
