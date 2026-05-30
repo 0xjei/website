@@ -3,7 +3,7 @@ import type { ReactNode } from "react"
 
 export const metadata: Metadata = {
   title: "Experience",
-  description: "Experience, hackathons, and education.",
+  description: "Experience, hackathons, lectures, and education.",
 }
 
 const experience: {
@@ -410,11 +410,29 @@ const hackathons: {
   },
 ]
 
+const lectures: {
+  role: string
+  title: string
+  venue: string
+  venueHref?: string
+  year: string
+  materialsHref?: string
+}[] = [
+  {
+    role: "Lecturer",
+    title: "Zero-Knowledge Proofs",
+    venue: "DLT2026",
+    venueHref: "https://convegni.unica.it/dlt2026/scientific-school/",
+    year: "2026",
+    materialsHref: "https://github.com/0xjei/dlt26",
+  },
+]
+
 export default function Experience() {
   return (
     <div className="space-y-10 stagger">
       <p className="text-sm font-mono text-muted-foreground italic leading-relaxed">
-        Experience, hackathons, and education. All open-source code is on{" "}
+        Experience, hackathons, lectures, and education. All open-source code is on{" "}
         <a
           href="https://github.com/0xjei"
           target="_blank"
@@ -531,6 +549,45 @@ export default function Experience() {
                 )}
               </span>
               <span className="text-muted-foreground/50">{h.year}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold text-foreground">Lectures</h2>
+        <ul className="space-y-2">
+          {lectures.map((l, i) => (
+            <li key={i} className="flex items-baseline gap-3 font-mono text-sm">
+              <span className="text-xs text-muted-foreground/50 shrink-0">[{l.role}]</span>
+              <span className="text-muted-foreground">
+                {l.materialsHref ? (
+                  <a
+                    href={l.materialsHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-foreground hover:font-bold transition-colors"
+                  >
+                    {l.title}
+                  </a>
+                ) : (
+                  l.title
+                )}
+                {" @ "}
+                {l.venueHref ? (
+                  <a
+                    href={l.venueHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-foreground hover:font-bold transition-colors"
+                  >
+                    {l.venue}
+                  </a>
+                ) : (
+                  l.venue
+                )}
+              </span>
+              <span className="text-muted-foreground/50">{l.year}</span>
             </li>
           ))}
         </ul>

@@ -1,0 +1,214 @@
+---
+title: "ZKP Lecture @ DLT26"
+date: "June 2026"
+dateSort: "2026-06"
+tags: ["cryptography", "blockchain", "zkp"]
+description: "A set of notes extracted from a lecture I gave on ZKP."
+kind: "notes"
+---
+
+> _These are lightly edited notes from the first part of the beginner lecture I gave at [DLT 2026](https://convegni.unica.it/dlt2026/scientific-school/) on programmable cryptography and zero-knowledge proofs. The slides and the exercise materials (second part) are available in the [dlt26](https://github.com/0xjei/dlt26) repository on GitHub. I suggest reading these paired with the slides for a more solid experience._
+>
+> **nb. There may be some inaccuracies, as I used these notes to help me speak and stay on track. I suggest to use them just as reference for the overall mindset!**
+
+This lecture is about programmable cryptography, with a focus on zero-knowledge proofs. The first half is about the mindset, the shift from classic to programmable cryptography, a bit of historical context, and an analysis of where the field currently is. The second half is about what happens when you combine ZKPs with blockchains, and the new use cases that unlocks.
+
+## 1. The mindset
+
+### What cryptography actually is
+
+Cryptography is often seen as something scary and complex, labeled "math for nerds". And whenever I talk about it, I run into the same misunderstanding: cryptography gets confused with encryption, or secure authentication, or even privacy and anonymity. It's worth going back to the roots before going anywhere new.
+
+I like this framing from David Wong, the author of [_Real-World Cryptography_](https://www.manning.com/books/real-world-cryptography) (one of my go-to suggested readings): cryptography is a form of defensive magic in adversarial contexts. You are not eliminating malicious actors. You are making assumptions and constructing protocols to prevent undesirable parties from interacting with your secrets.
+
+Most of what we use today to secure secrets in adversarial contexts (the Internet being the obvious one) reassembles into four families:
+
+- [**Encryption**](https://en.wikipedia.org/wiki/Encryption) is about confidentiality. You encrypt data so that only whoever holds the secret can decrypt and read it. Think of a locked box: the message is inside, and only the right key opens it.
+- **[Digital signatures](https://en.wikipedia.org/wiki/Digital_signature)** give you authenticity, integrity, and non-repudiation. You sign a message with your private key; anyone with your public key can verify it came from you and was not tampered with, binding you to the signed content.
+- **[Hash functions](https://en.wikipedia.org/wiki/Hash_function)** are one-way functions that take an arbitrary input and produce a fixed-size output, the digest. They are deterministic (same input, same digest), collision-resistant (two different inputs should not produce the same digest), and non-invertible (given a digest, you cannot recover the input). They are the backbone of integrity checks, commitments, and most of what makes blockchains work structurally.
+- **[Secret sharing](https://en.wikipedia.org/wiki/Secret_sharing)** is about splitting trust. You take a secret and split it into shares such that no single share reveals anything, and only a threshold of them (say, 3 out of 5) can reconstruct it. No single party holds the full secret.
+
+These families are powerful, but they share a fundamental constraint: each one is purpose-built to do exactly one job. Encryption solves confidentiality. Signatures solve authenticity. Hash functions solve integrity. Secret sharing solves sharing a secret. When cryptographers needed something new, they had to design a brand-new protocol from scratch. They might reuse primitives from the families above, but it often happens that none of them directly covers the new need, and something specialized has to be invented.
+
+That's the fundamental constraint of classic cryptography. The cryptographer's job is always the same: define the problem, build a bespoke protocol, prove it secure, and hope cryptanalysts won't break it. Powerful, but rigid, because it lacks programmability and everything that derives from it.
+
+### What if you could just write a program?
+
+What if, instead, you could get the same cryptographic properties just by writing a program?
+
+That's what programmable cryptography is about. Instead of designing a new protocol for every new problem, you write a software program and the cryptographic primitive operates over that program. The primitive doesn't care what the program does. It is built on top of a general-purpose cryptographic engine that works for any computation you can express, and it's Turing complete.
+
+It's the same shift as going from special-purpose hardware to a general-purpose CPU. A physical alarm clock does one thing perfectly. A processor does anything you can program, including being an alarm clock. We can now make that same transition for cryptography.
+
+The picture is: you write your logic in a high-level language, a cryptographic compiler (the engine) takes it and produces a protocol with cryptographic hardness baked in. You didn't invent new math. You didn't spend months designing a bespoke protocol. You wrote a program, and the compiler handled the rest. The guarantees come for free as a consequence of the engine you're building on.
+
+You still need to understand the cryptography you're composing: the assumptions it makes, the adversarial environments you're securing, the failure modes. But you no longer deal with raw math to write your solution. The cryptographic properties come with the engine.
+
+### Intuition
+
+To solidify this, here are three statements, each slightly more complex than the last, and the same question each time: how would you solve this with cryptography? These are inspired by [Brian Gu's ProgCrypto talk](https://www.youtube.com/watch?v=lEPqwF9gPiM), and they're designed to show exactly where classic cryptography stops being the best tool.
+
+**First:** _"I know a private key corresponding to Bob's public key."_ How do I prove this without revealing the key?
+
+Classic cryptography handles this easily. As Bob, I sign a challenge message with the private key; anyone with my public key verifies the signature. One primitive, one operation. Exactly one problem with no variables. Quite easy to solve with one protocol designed for it.
+
+**Second:** _"I know a private key corresponding to Bob's, Alice's, or Charlie's public key, without revealing which."_ You might reach for the same solution, but it doesn't work. Signatures require you to show the matching public key to verify them. The moment you sign, you reveal which member you are. Classic cryptography can still solve this using ring signatures, a protocol designed specifically for the multi-party nature of the problem.
+
+**Third:** same setting, with an extra condition: the other two cannot prove they _didn't_ generate the message. We're explicitly adding non-repudiation ambiguity by design.
+
+Notice what just happened. We took the previous problem, added a single logical condition, and the classic solution already got much harder to reason about. The more constraints and logic you stack onto a statement, the more bespoke the protocol has to be. At some point you'd ask a cryptographer to design it from scratch, and they might tell you it isn't worth it: too narrow, too complex, too expensive. And if any assumption changes even slightly, you need an entirely new protocol anyway.
+
+That's the pattern: every time the problem gets slightly more complex, classic cryptography needs a new bespoke construction. This is exactly where programmable cryptography changes the game.
+
+### A technology tree
+
+So what families of engines do we have for programmable cryptography? There's a simplified technology tree (from [0xPARC](https://0xparc.org/writings/programmable-cryptography-1)) where the bottom is practical and ready and the top is mostly still under research.
+
+At the base sit the classic primitives: digital signatures, encryption, special-purpose MPC (secret sharing). Moving up, you get more general constructions built on top of them. ZKP sits on the left branch, built on non-interactive zero-knowledge proofs (NIZK), which generalize digital signatures. [General-purpose MPC](https://eprint.iacr.org/2020/300) generalizes special-purpose MPC. [FHE](https://www.jeremykun.com/2024/05/04/fhe-overview/) generalizes encryption. And at the very top sits [indistinguishability obfuscation](https://pse.dev/projects/machina-io), the most powerful known primitive in the field, still largely theoretical and only recently approaching plausibly secure constructions.
+
+### Where's Waldo?
+
+Before moving on ZKPs, let's walk through the classic Waldo example. The problem: _I want to prove where Waldo is in this image without revealing his location._ How?
+
+Take a large sheet, cover the whole image except a small window over Waldo, and show that window. You can see Waldo, so I've convinced you I know where he is, but you've learned nothing about his position in the full image beyond what's visible in the frame. A toy example, but it captures exactly what zero-knowledge is about. Let's formalize it.
+
+### The formal definition
+
+In a ZKP setting there are two parties. The **Prover** knows a secret (the witness, $w$) and wants to convince the **Verifier** that a statement ($f$) is true, revealing only the public inputs ($x$), by handing over a proof of knowledge.
+
+- $f$ is the public program encoding the claim. For Waldo: "I know where Waldo is inside this image."
+- $x$ is the public input, known to both parties; here, the image itself.
+- $w$ is the witness, the secret that makes the statement true: Waldo's location. The Prover combines the witness with the program and the public inputs to generate a valid proof.
+- $π$ is the proof the Prover sends. The Verifier runs the verifier function $v$ over $π$ and $x$ to check validity.
+- $f$, $v$, $x$, and $π$ are all public. The only thing that stays secret is $w$.
+
+One thing worth saying explicitly: this is a _single-player computation_ on the Prover side. The Prover works alone and holds the full witness. In a standard ZKP there's no notion of splitting the witness across parties. That would need a different primitive entirely, like MPC or Co-SNARKs.
+
+### Three properties
+
+A proof system is zero-knowledge only if it satisfies the following [three properties](https://en.wikipedia.org/wiki/Zero-knowledge_proof#Definition):
+
+- **Completeness:** if the statement is true and the prover is honest, the verifier accepts. If I genuinely know where Waldo is, I can always produce the sheet with the hole and convince you.
+- **Soundness:** if the statement is false, no cheating prover can convince the verifier to accept it. You cannot fake a valid proof for a false statement.
+- **Zero-knowledge:** the verifier learns nothing beyond the truth of the statement. With Waldo, you don't learn the exact position.
+
+Completeness makes it useful for honest provers. Soundness makes it secure against dishonest ones. Zero-knowledge makes it private. All three are necessary.
+
+Now expand the earlier compiler diagram. Instead of a generic cryptography compiler, we have a ZKP compiler that takes the program encoding our statement $f$, written in a high-level or domain-specific language. There are different compilers with different trade-offs (some based on elliptic curves, others on KZG commitments or hash functions) but in general what comes out is a protocol with cryptographic hardness: the ZK circuit, in the form of artifacts that let you generate and verify proofs. Note the separation: the top row is compile time (write once, get the circuit artifacts), and the bottom row is runtime (prove and verify as many times as you like against the same circuit).
+
+### A short history
+
+For most of the 80s and 90s, ZKPs were purely theoretical, too expensive to be useful. It starts in 1985 with [Goldwasser, Micali, and Rackoff](https://people.csail.mit.edu/silvio/Selected%20Scientific%20Papers/Proof%20Systems/The_Knowledge_Complexity_Of_Interactive_Proof_Systems.pdf) asking a theoretical question: how much knowledge is actually transferred when you prove something to someone? The answer, "sometimes none at all", gave the formal definition of zero-knowledge. Goldwasser and Micali later won the Turing Award for this line of work.
+
+The first real turning point came in 2013. [Pinocchio](https://eprint.iacr.org/2013/279.pdf) introduced the first practically usable SNARK (Succinct Non-Interactive Argument of Knowledge), proving that general-purpose verifiable computation was feasible. Then [Groth16](https://eprint.iacr.org/2016/260.pdf) (2016) unlocked constant-size proofs and constant-time verification based on elliptic curves. The one pain of these SNARKs is the trusted setup: a one-time ceremony per circuit where many people contribute random values (entropy) that must then be discarded, the so-called toxic waste. Why discard it? Because if you can reconstruct the chain of randomness, the proof system breaks: you can forge valid proofs for false statements.
+
+2018 brought [STARKs](https://eprint.iacr.org/2018/046.pdf): no trusted setup at all, post-quantum resistant, based on hash functions rather than elliptic curves. The trade-off is larger proofs. 2019 brought [PLONK](https://eprint.iacr.org/2019/953.pdf): same trusted-setup requirement as Groth16, but _universal_, one ceremony for all possible circuits instead of one per circuit.
+
+From 2020, the dominant theme became _recursion_ and _folding_. Recursion means a proof system can verify another proof inside itself, compressing an arbitrarily long chain of proofs into a single constant-size one. Folding is lighter: instead of verifying a full proof inside a circuit, you fold multiple instances of the same computation together, reducing the problem incrementally at much lower cost. Both unlock scalability the first generation couldn't offer.
+
+In 2021, [Nova](https://eprint.iacr.org/2021/370) put folding on the map, keeping linear prover cost and avoiding the overhead of full recursive verification. In 2022, [Plonky2](https://github.com/0xPolygonZero/plonky2/blob/main/plonky2/plonky2.pdf) (Polygon Zero) was the first practically fast recursive SNARK, combining PLONK with FRI-based polynomial commitments. In 2023, [HyperNova](https://eprint.iacr.org/2023/573) generalized Nova's folding to a much broader class of constraint systems, while [ProtoGalaxy](https://eprint.iacr.org/2023/1106) took a different angle, folding many instances at once rather than pairwise. From there, folding became a core primitive of nearly every scheme that followed. And in 2024, [LatticeFold](https://eprint.iacr.org/2024/257) brought folding into the post-quantum world for the first time, using lattice assumptions rather than elliptic curves (similar to what FHE is based on).
+
+So: from the first practical SNARK eleven years ago to recursive post-quantum folding today. Everything except the lattice-based work is more than practical now. And in the AI plus post-quantum era, serious R&D funding is going into making PQ-resistant schemes efficient, to support things like Ethereum's transition to post-quantum cryptography. If you want to keep up, there's a great up-to-date table on [Matt Faulkner's blog](https://mfaulk.github.io/2024/09/26/zkp.html) with metrics per scheme: verification time, PQ resistance, proof size, and more.
+
+### Recap
+
+ZKPs unlock two things. **Private and verifiable claims** (you can prove a statement to a verifier without revealing the witness) and **programmable trust** (instead of designing a cryptographic protocol for every new problem, you write a program and the proof scheme compiles it into a protocol with cryptographic hardness).
+
+## 2. ZKPs and blockchains
+
+### The environment
+
+As with cryptography, it's worth being clear about the environment we're moving into. A blockchain is unlike anything else in computing. I'll gloss over wallets, consensus, blocks, and transactions, but the properties matter:
+
+- **Public:** anyone can read state, submit transactions, and verify state changes.
+- **Decentralized:** no single operator, no trusted party, no one to call when things go wrong.
+- **Permissionless:** no enforced rules to become an operator; you decide when to enter or leave.
+- **Programmable:** you can deploy arbitrary logic, for example smart contracts on Ethereum, which we can think of as deterministic state changes on the ledger.
+
+Put those together and the environment becomes deeply adversarial. Every participant has to assume every other participant might be trying to cheat, extract value, or manipulate the system. MEV is the famous example, and with AI agents now operating on-chain via standards like ERC-8004, the adversarial surface is only growing. There's no recourse, no admin key, no appeals process. The rules are enforced by math and consensus, not institutions.
+
+### The combination
+
+[Combining ZKPs with blockchains](https://zkintro.com/articles/friendly-introduction-to-zero-knowledge/) gives two qualities.
+
+- **Privacy**: a ZKP lets you make a private claim to a public, trustless audience, and once that claim is verified on-chain, it can trigger on-chain logic without revealing anything beyond its truth. Prove you're over 18 without revealing your age. Prove you have sufficient balance without revealing your balance. Prove you're a member of a group without revealing which member. You can prove against both on-chain and off-chain data. This is the foundation of protocols like [Semaphore](https://semaphore.pse.dev) and [MACI](https://maci.pse.dev).
+- **Succinctness**: a proof is small and cheap to verify regardless of how complex the underlying computation was. The chain doesn't re-execute the computation to trust the result, it just checks the proof. That's the basis of a zk-rollup: process thousands of transactions off-chain, generate a single proof attesting to their validity, submit that proof to L1 to anchor all the transactions. The chain verifies in milliseconds what would have cost an enormous amount of gas to execute directly.
+
+And the other direction, what does the blockchain give back to ZKPs?
+
+Remember that proof generation does not happen on-chain; otherwise you'd leak the witness, and it's expensive anyway (elliptic-curve pairings for SNARKs). What the chain runs is the _verifier_. The verify function $v$ takes only $x$ and $π$ (both public) and returns a boolean, so it fits perfectly in a smart contract `verify()` function. It's cheap, constant-time, minimal gas.
+
+ZKPs can live entirely off-chain, but the on-chain verifier adds a trustless, public, no-single-party-controlled checkpoint of truth, one that can't be bribed or coerced. And thanks to composability, the verifier's result can trigger other on-chain mechanisms when a proof is accepted. On-chain, a proof doesn't just convince someone. It can unlock a transaction, update state, grant access, distribute funds.
+
+### What it unlocks at the infrastructure layer
+
+- **Private transactions.** [Zcash](https://z.cash/) was the first production blockchain to use ZKPs for fully shielded transactions: sender, receiver, and amount, all hidden; the network only verifies the proof. [Aztec](https://aztec.network/) brought the same idea to Ethereum as a privacy-first ZK rollup, with private transactions and private smart contract execution settled on Ethereum. Privacy hides the details; succinctness makes verification cheap enough to run on-chain.
+- **Private consensus.** [Logos](https://logos.co/), built on the Cryptarchia consensus, uses Proof of Leadership to elect slot leaders without revealing who they are or how much stake they hold. The leader proves eligibility, lottery win, and key derivation with a single ZKP that every other node verifies to reach consensus.
+- **Private execution.** [zkEVMs](https://zkevm.ethereum.foundation/) prove the correctness of EVM execution itself, turning the chain into a verifiable computation environment. [ZK coprocessors](https://lagrange.dev/zk-coprocessor) let you run expensive logic off-chain and submit a proof on-chain, where the contract just verifies.
+
+### N problems, 1 protocol
+
+Given the Turing completeness of ZKPs, the application space at the smart-contract layer is effectively infinite. To make it concrete, let's take one problem all the way through to one protocol, and the mental model re-applies to anything you meet later.
+
+**Problem**: you're part of a group, and you want to prove you belong to it to someone outside, without revealing which member you are, or anything specific about yourself. Membership stays public; identity stays private. And think about it at different scales: proving you hold a specific identity document, proving you're over 18, proving you're a verified human with biometrics. The primitive has to be general enough to be reused across all of those without a new protocol each time.
+
+Concretely: let's solve it so you can vote in an election without anyone knowing who you are.
+
+**First idea:** sign a message with your private key. But to verify it, you publish your public key on-chain, and now everyone knows exactly who you are. We failed.
+
+**Better idea:** a [Merkle tree](https://en.wikipedia.org/wiki/Merkle_tree), the most space-efficient structure for committing to a set of values. As a refresher: data lives in the leaves, parent nodes are hashes of their children, and you compress upward recursively to a single root. Change anything in the leaves and the root changes too, by the properties of hash functions. (An odd number of members is handled by hashing single leaves up the path).
+
+So you store your group members (public keys, identifiers, even signatures) in the leaves, publish the root on-chain, and each member holds their own Merkle path: the sequence of hashes from their leaf to the root. To prove membership, you reveal your leaf and provide the path; anyone can verify the path leads to the root.
+
+But notice the same problem. You revealed your leaf, and whatever identifier is inside it (public key, signature, anything) is now visible. Anyone watching sees exactly which member you are. Membership is proven, but privacy is gone. We solved the wrong half of the problem. What we actually need is a way to prove you know a valid Merkle path to the root _without revealing which leaf you are._
+
+### Adding ZK
+
+This is the perfect place to add zero-knowledge. The public input $x$ is the Merkle root, aka the group. The witness $w$ is your identity and your Merkle path. The proof $π$ convinces the verifier you're in the group, and nothing else is revealed: no link to your identity, no indication of which member you are.
+
+This can live entirely off-chain: you prove membership to whoever runs the verifier. But that verifier is a person, a server, a centralized party. You have to trust them to accept honestly, not store your data, not collude. The ZKP gives you cryptographic privacy, but the trust problem isn't fully solved. And crucially, nothing happens automatically: someone still has to act on the proof. In our case, count the vote.
+
+So put everything on-chain. The verifier becomes a smart contract. Nobody controls it; it can't be bribed or coerced. When it accepts a proof, it can directly trigger on-chain logic, here, record your vote. The proof doesn't just convince someone; it's a witness that triggers execution as a consequence. The contract verifies your proof of group membership and, if valid, records your vote, without ever knowing who you are (And note how far beyond voting this same logic extends).
+
+One problem remains. What stops you from voting twice? A hundred times? The ZKP reveals nothing about your identity, so the verifier can't tell if the same person is voting again. We need one more piece, what cryptographers call a **nullifier**.
+
+### The nullifier
+
+A nullifier is a public, unique value that prevents the same person from acting twice in the same context, without revealing who they are.
+
+The construction is simple. You take your secret, the same secret that proves your group membership, and hash it together with a _scope_: a public value identifying the specific context. For us, the scope is the election ID. The output is the nullifier, and it goes on-chain alongside the proof.
+
+The smart contract stores every nullifier it has seen. When a new vote arrives, it checks: have I seen this nullifier before? If yes, reject, this person already voted. If no, record the vote and store the nullifier.
+
+The properties that make this work come from the hash function. Same secret, same scope, always the same nullifier, so the contract can detect duplicates. Different scope, completely different nullifier (so your votes across different elections can't be linked). And one-way (the nullifier reveals nothing about the secret) so even though it's public forever, it can't be traced back to you.
+
+That's the missing piece. The ZKP gives you anonymous membership; the nullifier gives you one-action-per-context. Together, they let you vote once, anonymously and verifiably, exactly the property we wanted.
+
+### Semaphore
+
+We just solved the problem with a mix of Merkle trees and a hash-based nullifier, proving group membership in zero-knowledge. What we designed is already a real ZK protocol: [**Semaphore**](https://semaphore.pse.dev), built by the PSE team at the Ethereum Foundation.
+
+The flow: you create a Semaphore identity locally on your device, add it to a group (a Merkle tree managed by a smart contract) and then send anonymous messages (votes, signals, endorsements) as a provable group member, with the nullifier preventing double-signaling per scope.
+
+The circuit does four things:
+
+1. **Proof of membership.** It derives a public identity commitment from your secret and verifies that commitment is a leaf in the Merkle tree. The root is the only public output; your secret, your leaf, your path all stay in the witness. The Binary Merkle Root is a common gadget you import and reuse directly.
+2. **Identity.** The Semaphore identity starts from your secret. It's generated as a public key (a point on the BabyJubJub curve) and the Poseidon hash of that public key is your identity commitment. Why a commitment? Because it's a value bound uniquely to your identity without revealing it. Sharing it commits you to one identity without disclosing it.
+3. **Nullifier.** The circuit hashes your secret with the scope and outputs the nullifier publicly.
+4. **A dummy square.** Squaring the message inside the circuit is a small trick to prevent malleability, stopping someone from reusing the proof with a different message.
+
+And you might wonder how hard this circuit is to write. It's about forty lines, in either [Circom](https://github.com/semaphore-protocol/semaphore/blob/main/packages/circuits/src/semaphore.circom) or [Noir](https://github.com/hashcloak/semaphore-noir/blob/main/packages/circuits-noir/src/main.nr). Forty lines that solve something genuinely complex: verifiable group action without disclosing who you are, with no double-signaling. Imagine building that with classic cryptography, scaling it and proving it secure through math. This is what programmable cryptography looks like in practice.
+
+### Building on top
+
+Now, building on top of Semaphore. Because of everything above, you don't reimplement it per use case the way classic cryptography forces you to. You plug it into your application circuit as a component. The way you'd import a library, exactly as Semaphore itself imports the Binary Merkle Root.
+
+So Semaphore adapts to different identity contexts not by changing the circuit but by changing what goes into the leaves. For example:
+
+- **[ZK Passport](https://zkpassport.id):** anonymous proof you hold a valid biometric passport.
+- **[Anon Aadhaar](https://anon-aadhaar.pse.dev):** anonymous proof you're a verified Indian citizen.
+- **[zkEmail](https://zk.email):** anonymous proof you received a specific email from a specific domain.
+
+Different products, different real-world problems, all deployed and used by thousands of people today. We could keep going: anonymous-gated DAOs, private DeFi, anonymous credentials for healthcare, supply-chain provenance, private AI inference, European efforts like EUDI, and new standardization initiatives emerging now. This is the tip of the iceberg.
+
+I'm confident enough to say this is no longer a research prototype or a theoretical future, and the technology is mature enough to deploy today, on-chain and off-chain. There's a plethora of protocols, primitives, and applications already out there. If you're interested, there's a lot of exciting ground to explore.
