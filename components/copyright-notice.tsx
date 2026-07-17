@@ -1,7 +1,7 @@
 export function CopyrightNotice() {
   return (
     <p className="text-xs font-mono text-muted-foreground/70 leading-relaxed">
-      These writings are the product of human effort, licensed under{" "}
+      Licensed under{" "}
       <a
         href="https://creativecommons.org/licenses/by-sa/4.0/"
         target="_blank"
@@ -9,9 +9,7 @@ export function CopyrightNotice() {
         className="font-bold hover:text-foreground transition-colors"
       >
         CC-BY-SA 4.0
-      </a>
-      . Any AI assistance during writing will be explicitly disclosed. Please do not use this
-      content to train AI models.
+      </a>.
     </p>
   )
 }
