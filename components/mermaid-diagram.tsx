@@ -78,6 +78,10 @@ export function MermaidDiagram({ chart }: { chart: string }) {
     let startX = 0
     let startY = 0
 
+    // Pinch zoom
+    let pinchDist = 0
+    let pinchScale = 0
+
     function apply() {
       wrap!.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`
     }
@@ -112,11 +116,36 @@ export function MermaidDiagram({ chart }: { chart: string }) {
       container!.style.cursor = "grab"
     }
 
+    function dist(t: TouchList) {
+      const dx = t[0].clientX - t[1].clientX
+      const dy = t[0].clientY - t[1].clientY
+      return Math.sqrt(dx * dx + dy * dy)
+    }
+
+    function onTouchStart(e: TouchEvent) {
+      if (e.touches.length === 2) {
+        e.preventDefault()
+        dragging = false
+        pinchDist = dist(e.touches)
+        pinchScale = scale
+      }
+    }
+
+    function onTouchMove(e: TouchEvent) {
+      if (e.touches.length === 2) {
+        e.preventDefault()
+        scale = Math.min(3, Math.max(fitScale * 0.5, pinchScale * (dist(e.touches) / pinchDist)))
+        apply()
+      }
+    }
+
     container.addEventListener("wheel", onWheel, { passive: false })
     container.addEventListener("pointerdown", onPointerDown)
     container.addEventListener("pointermove", onPointerMove)
     container.addEventListener("pointerup", onPointerUp)
     container.addEventListener("pointercancel", onPointerUp)
+    container.addEventListener("touchstart", onTouchStart, { passive: false })
+    container.addEventListener("touchmove", onTouchMove, { passive: false })
 
     return () => {
       container.removeEventListener("wheel", onWheel)
@@ -124,6 +153,8 @@ export function MermaidDiagram({ chart }: { chart: string }) {
       container.removeEventListener("pointermove", onPointerMove)
       container.removeEventListener("pointerup", onPointerUp)
       container.removeEventListener("pointercancel", onPointerUp)
+      container.removeEventListener("touchstart", onTouchStart)
+      container.removeEventListener("touchmove", onTouchMove)
     }
   }, [rendered])
 
@@ -144,7 +175,7 @@ export function MermaidDiagram({ chart }: { chart: string }) {
       <div
         ref={containerRef}
         className="relative overflow-hidden rounded border border-muted-foreground/10 bg-muted/10 select-none"
-        style={{ height: 420, cursor: "grab" }}
+        style={{ height: 420, cursor: "grab", touchAction: "none" }}
       >
         <div
           ref={svgWrapRef}

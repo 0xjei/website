@@ -28,7 +28,7 @@
     "remark-parse": "^11.0.0",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
-    "vercel": "^54.1.0"
+    "vercel": "^56.2.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
