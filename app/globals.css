@@ -197,7 +197,14 @@
 
 :root {
   --font-ioskeley-mono: "Ioskeley Mono";
-  --space-crawl-background: radial-gradient(circle at 50% 75%, #fff 0%, var(--background) 64%);
+  --space-crawl-background: radial-gradient(
+    circle at 50% 75%,
+    #f8f8f8 0%,
+    #d5d5d5 30%,
+    #747474 58%,
+    #222 78%,
+    #fff 100%
+  );
   --space-crawl-star: var(--muted-foreground);
   --space-crawl-accent: var(--foreground);
   --space-crawl-accent-shadow: var(--muted-foreground);
@@ -580,6 +587,19 @@
     .logo-space-hop.is-launching {
       color: inherit;
     }
+  }
+
+  /* Keep the cinematic crawl exclusive to the dark theme for now. */
+  html:not(.dark) .logo-space-hop.is-launching {
+    color: inherit;
+    animation: none;
+  }
+
+  html:not(.dark) .logo-space-hop.is-launching::before,
+  html:not(.dark) .logo-space-hop.is-launching::after,
+  html:not(.dark) .space-crawl-overlay {
+    display: none;
+    animation: none;
   }
 
   /* Planet loader: moon orbit */
