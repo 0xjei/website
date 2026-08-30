@@ -197,6 +197,10 @@
 
 :root {
   --font-ioskeley-mono: "Ioskeley Mono";
+  --space-crawl-background: radial-gradient(circle at 50% 75%, #fff 0%, var(--background) 64%);
+  --space-crawl-star: var(--muted-foreground);
+  --space-crawl-accent: var(--foreground);
+  --space-crawl-accent-shadow: var(--muted-foreground);
   /* Daylight: slightly less bright bg, eased chroma — body copy separates more clearly */
   --background: oklch(0.97 0.007 246);
   /* Ink: lower L + chroma vs airy bg (same idea as dark: reduce hue competition) */
@@ -209,6 +213,10 @@
 }
 
 .dark {
+  --space-crawl-background: radial-gradient(circle at 50% 75%, #141a35 0%, #03040c 64%);
+  --space-crawl-star: #fff;
+  --space-crawl-accent: #ffe81f;
+  --space-crawl-accent-shadow: #b78f00;
   /* Deep space — slightly darker, less chroma so body copy reads cleaner */
   --background: oklch(0.095 0.03 272);
   /* Primary text: higher L, lower chroma vs bg (less simultaneous-contrast washout) */
@@ -347,7 +355,7 @@
   }
 
   .logo-space-hop.is-launching {
-    color: #ffe81f;
+    color: var(--space-crawl-accent);
     transform-origin: 50% 100%;
     animation: logo-space-crawl 1100ms cubic-bezier(0.16, 0.75, 0.32, 1);
   }
@@ -365,11 +373,11 @@
     right: -30px;
     width: 3px;
     height: 3px;
-    background: #ffe81f;
+    background: var(--space-crawl-accent);
     box-shadow:
-      9px 8px 0 #ffe81f,
-      18px -4px 0 #ffe81f,
-      25px 12px 0 #ffe81f;
+      9px 8px 0 var(--space-crawl-accent),
+      18px -4px 0 var(--space-crawl-accent),
+      25px 12px 0 var(--space-crawl-accent);
     animation: logo-space-stars 1100ms steps(5, end);
   }
 
@@ -378,8 +386,8 @@
     bottom: -7px;
     left: -4px;
     height: 1px;
-    background: #ffe81f;
-    box-shadow: 0 4px 0 #ffe81f;
+    background: var(--space-crawl-accent);
+    box-shadow: 0 4px 0 var(--space-crawl-accent);
     transform-origin: left center;
     animation: logo-space-horizon 1100ms steps(5, end);
   }
@@ -390,7 +398,7 @@
     inset: 0;
     overflow: hidden;
     pointer-events: none;
-    background: radial-gradient(circle at 50% 75%, #141a35 0%, #03040c 64%);
+    background: var(--space-crawl-background);
     animation: space-crawl-fade 1100ms ease-out both;
   }
 
@@ -406,7 +414,7 @@
     position: absolute;
     width: 2px;
     height: 2px;
-    background: #fff;
+    background: var(--space-crawl-star);
     content: "";
   }
 
@@ -414,18 +422,18 @@
     top: 11%;
     left: 13%;
     box-shadow:
-      9vw 12vh 0 #fff,
-      22vw 31vh 0 #fff,
-      35vw 8vh 0 #fff,
-      48vw 23vh 0 #fff,
-      62vw 13vh 0 #fff,
-      77vw 35vh 0 #fff,
-      89vw 17vh 0 #fff,
-      16vw 68vh 0 #fff,
-      31vw 54vh 0 #fff,
-      54vw 73vh 0 #fff,
-      71vw 61vh 0 #fff,
-      94vw 78vh 0 #fff;
+      9vw 12vh 0 var(--space-crawl-star),
+      22vw 31vh 0 var(--space-crawl-star),
+      35vw 8vh 0 var(--space-crawl-star),
+      48vw 23vh 0 var(--space-crawl-star),
+      62vw 13vh 0 var(--space-crawl-star),
+      77vw 35vh 0 var(--space-crawl-star),
+      89vw 17vh 0 var(--space-crawl-star),
+      16vw 68vh 0 var(--space-crawl-star),
+      31vw 54vh 0 var(--space-crawl-star),
+      54vw 73vh 0 var(--space-crawl-star),
+      71vw 61vh 0 var(--space-crawl-star),
+      94vw 78vh 0 var(--space-crawl-star);
   }
 
   .space-crawl-stars::after {
@@ -433,15 +441,15 @@
     left: 5%;
     opacity: 0.55;
     box-shadow:
-      17vw 6vh 0 #fff,
-      29vw 44vh 0 #fff,
-      44vw 16vh 0 #fff,
-      58vw 42vh 0 #fff,
-      69vw 28vh 0 #fff,
-      83vw 9vh 0 #fff,
-      7vw 76vh 0 #fff,
-      41vw 82vh 0 #fff,
-      86vw 67vh 0 #fff;
+      17vw 6vh 0 var(--space-crawl-star),
+      29vw 44vh 0 var(--space-crawl-star),
+      44vw 16vh 0 var(--space-crawl-star),
+      58vw 42vh 0 var(--space-crawl-star),
+      69vw 28vh 0 var(--space-crawl-star),
+      83vw 9vh 0 var(--space-crawl-star),
+      7vw 76vh 0 var(--space-crawl-star),
+      41vw 82vh 0 var(--space-crawl-star),
+      86vw 67vh 0 var(--space-crawl-star);
   }
 
   .space-crawl-title {
@@ -450,7 +458,7 @@
     left: 50%;
     width: min(80vw, 720px);
     margin: 0;
-    color: #ffe81f;
+    color: var(--space-crawl-accent);
     font-family: var(--font-ioskeley-mono), "Courier New", Courier, monospace;
     font-size: clamp(2.2rem, 9vw, 7rem);
     line-height: 1;
@@ -518,11 +526,11 @@
     }
     12% {
       transform: perspective(240px) rotateX(48deg) translate3d(0, 1px, 0) scale(1.08);
-      text-shadow: 0 1px 0 #b78f00;
+      text-shadow: 0 1px 0 var(--space-crawl-accent-shadow);
     }
     42% {
       transform: perspective(240px) rotateX(58deg) translate3d(3px, -8px, 0) scale(0.82);
-      text-shadow: 0 2px 0 #b78f00;
+      text-shadow: 0 2px 0 var(--space-crawl-accent-shadow);
     }
     75% {
       transform: perspective(240px) rotateX(62deg) translate3d(10px, -25px, 0) scale(0.38);
