@@ -1,24 +1,9 @@
 import type { Metadata, Viewport } from "next"
-import { Anonymous_Pro, Space_Mono } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LoadingProvider } from "@/components/loading-context"
 import { SiteLayout } from "@/components/site-layout"
 import { siteUrl } from "@/lib/site"
-
-const anonymousPro = Anonymous_Pro({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-anonymous-pro",
-  display: "swap",
-})
-
-const spaceMono = Space_Mono({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-space-mono",
-  display: "swap",
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -127,7 +112,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed.xml" />
       </head>
-      <body className={`${anonymousPro.variable} ${spaceMono.variable} antialiased`}>
+      <body>
         <ThemeProvider>
           <LoadingProvider>
             <a

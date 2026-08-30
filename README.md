@@ -15,7 +15,7 @@ My personal space on the web - you can find everything related to my professiona
 - I do not retain any data, analytics, tracking, databases, CMS - nothing.
 - The share buttons open external websites when you click them. These are user-initiated actions and I do not track when or if you share content!
 - All content lives in `contents/` as `.mdx` files (posts under `contents/writings/writing/` and `contents/writings/logbook/`).
-- Fonts are self-hosted at build time via `next/font/google` - no requests are made to external font services.
+- Fonts are self-hosted in `public/fonts/` with local `@font-face` definitions - no requests are made to external font services.
 - A set of HTTP security headers locks down the surface area for most attacks. Notably, the Permissions‑Policy disables client‑side APIs that could expose user data (geolocation, microphone, camera, interest‑cohort, browsing‑topics). Additional hardening includes CSP, X‑Frame‑Options, Referrer‑Policy, and related headers. For technical readers, you can inspect the local [next.config](./next.config.ts) file.
 
 ## Dev

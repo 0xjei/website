@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { useTheme } from "./theme-provider"
 import { PixelStars } from "./pixel-stars"
 import { CustomCursor } from "./custom-cursor"
+import { SpaceLogoLink } from "./logo"
 import { useLayoutEffect, useState, useEffect } from "react"
 
 const nav = [
@@ -71,12 +72,12 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       {/* Mobile header */}
       <header className="lg:hidden border-b border-border px-6 py-5 bg-background relative z-10">
         <div className="flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-base font-anonymous font-semibold text-foreground hover:font-bold transition-colors"
+          <SpaceLogoLink
+            className="text-base font-ioskeley font-semibold text-foreground hover:font-bold transition-colors"
+            aria-label="Home"
           >
             0xjei
-          </Link>
+          </SpaceLogoLink>
           <div className="flex items-center gap-4">
             <ThemeButton />
             <button
@@ -94,13 +95,13 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       {menuOpen && (
         <div className="fixed inset-0 z-50 bg-background flex flex-col px-6 py-5 lg:hidden">
           <div className="flex items-center justify-between border-b border-border pb-5">
-            <Link
-              href="/"
-              className="text-base font-anonymous font-semibold text-foreground"
+            <SpaceLogoLink
+              className="text-base font-ioskeley font-semibold text-foreground"
               onClick={() => setMenuOpen(false)}
+              aria-label="Home"
             >
               0xjei
-            </Link>
+            </SpaceLogoLink>
             <button
               onClick={() => setMenuOpen(false)}
               className="text-xl font-mono text-foreground leading-none"
@@ -134,12 +135,12 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex flex-col shrink-0 border-r border-border px-8 py-10 sticky top-0 h-screen overflow-hidden bg-background relative z-10">
         {/* Name */}
-        <Link
-          href="/"
-          className="text-sm font-anonymous font-semibold text-foreground hover:font-bold transition-colors mb-8 block"
+        <SpaceLogoLink
+          className="text-sm font-ioskeley font-semibold text-foreground hover:font-bold transition-colors mb-8 block"
+          aria-label="Home"
         >
           0xjei
-        </Link>
+        </SpaceLogoLink>
 
         {/* Nav */}
         <nav className="flex flex-col gap-3 mb-10" aria-label="Main navigation">

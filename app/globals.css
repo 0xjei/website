@@ -1,12 +1,172 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@utility font-anonymous {
-  font-family: var(--font-anonymous-pro), "Courier New", Courier, monospace;
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-Thin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-ExtraLight.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-Light.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-SemiLight.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 350;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-Medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-SemiBold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-ExtraBold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-Black.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-ThinItalic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-ExtraLightItalic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-LightItalic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-SemiLightItalic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 350;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-Italic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-MediumItalic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-SemiBoldItalic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-BoldItalic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-ExtraBoldItalic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ioskeley Mono";
+  src: url("/fonts/IoskeleyMono-BlackItalic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+}
+
+@utility font-ioskeley {
+  font-family: var(--font-ioskeley-mono), "Courier New", Courier, monospace;
 }
 
 @utility prose-mono {
-  font-family: var(--font-space-mono), "Courier New", Courier, monospace;
+  font-family: var(--font-ioskeley-mono), "Courier New", Courier, monospace;
   & p {
     line-height: 1.6;
     text-align: justify;
@@ -28,7 +188,7 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
-  --font-mono: var(--font-space-mono);
+  --font-mono: var(--font-ioskeley-mono);
   --radius-sm: 0px;
   --radius-md: 0px;
   --radius-lg: 0px;
@@ -36,6 +196,7 @@
 }
 
 :root {
+  --font-ioskeley-mono: "Ioskeley Mono";
   /* Daylight: slightly less bright bg, eased chroma — body copy separates more clearly */
   --background: oklch(0.97 0.007 246);
   /* Ink: lower L + chroma vs airy bg (same idea as dark: reduce hue competition) */
@@ -101,7 +262,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-space-mono), "Courier New", Courier, monospace;
+    font-family: var(--font-ioskeley-mono), "Courier New", Courier, monospace;
     overscroll-behavior-y: none;
   }
 
@@ -111,7 +272,16 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-space-mono), "Courier New", Courier, monospace;
+    font-family: var(--font-ioskeley-mono), "Courier New", Courier, monospace;
+  }
+
+  /* Keep body copy plain while preserving a strong heading hierarchy. */
+  body :not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(:root) {
+    font-weight: 400;
+  }
+
+  body :is(h1, h2, h3, h4, h5, h6):not(:root) {
+    font-weight: 700;
   }
 
   main {
@@ -168,6 +338,240 @@
   .cursor-blink {
     animation: blink 1s step-end infinite;
     margin-left: 1px;
+  }
+
+  .logo-space-hop {
+    position: relative;
+    display: inline-block;
+    isolation: isolate;
+  }
+
+  .logo-space-hop.is-launching {
+    color: #ffe81f;
+    transform-origin: 50% 100%;
+    animation: logo-space-crawl 1100ms cubic-bezier(0.16, 0.75, 0.32, 1);
+  }
+
+  .logo-space-hop.is-launching::before,
+  .logo-space-hop.is-launching::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .logo-space-hop.is-launching::before {
+    top: -14px;
+    right: -30px;
+    width: 3px;
+    height: 3px;
+    background: #ffe81f;
+    box-shadow:
+      9px 8px 0 #ffe81f,
+      18px -4px 0 #ffe81f,
+      25px 12px 0 #ffe81f;
+    animation: logo-space-stars 1100ms steps(5, end);
+  }
+
+  .logo-space-hop.is-launching::after {
+    right: -14px;
+    bottom: -7px;
+    left: -4px;
+    height: 1px;
+    background: #ffe81f;
+    box-shadow: 0 4px 0 #ffe81f;
+    transform-origin: left center;
+    animation: logo-space-horizon 1100ms steps(5, end);
+  }
+
+  .space-crawl-overlay {
+    position: fixed;
+    z-index: 9998;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 75%, #141a35 0%, #03040c 64%);
+    animation: space-crawl-fade 1100ms ease-out both;
+  }
+
+  .space-crawl-stars {
+    position: absolute;
+    inset: 0;
+    opacity: 0.85;
+    animation: space-crawl-star-drift 1100ms ease-out both;
+  }
+
+  .space-crawl-stars::before,
+  .space-crawl-stars::after {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    content: "";
+  }
+
+  .space-crawl-stars::before {
+    top: 11%;
+    left: 13%;
+    box-shadow:
+      9vw 12vh 0 #fff,
+      22vw 31vh 0 #fff,
+      35vw 8vh 0 #fff,
+      48vw 23vh 0 #fff,
+      62vw 13vh 0 #fff,
+      77vw 35vh 0 #fff,
+      89vw 17vh 0 #fff,
+      16vw 68vh 0 #fff,
+      31vw 54vh 0 #fff,
+      54vw 73vh 0 #fff,
+      71vw 61vh 0 #fff,
+      94vw 78vh 0 #fff;
+  }
+
+  .space-crawl-stars::after {
+    top: 7%;
+    left: 5%;
+    opacity: 0.55;
+    box-shadow:
+      17vw 6vh 0 #fff,
+      29vw 44vh 0 #fff,
+      44vw 16vh 0 #fff,
+      58vw 42vh 0 #fff,
+      69vw 28vh 0 #fff,
+      83vw 9vh 0 #fff,
+      7vw 76vh 0 #fff,
+      41vw 82vh 0 #fff,
+      86vw 67vh 0 #fff;
+  }
+
+  .space-crawl-title {
+    position: absolute;
+    bottom: -12vh;
+    left: 50%;
+    width: min(80vw, 720px);
+    margin: 0;
+    color: #ffe81f;
+    font-family: var(--font-ioskeley-mono), "Courier New", Courier, monospace;
+    font-size: clamp(2.2rem, 9vw, 7rem);
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-align: center;
+    transform-origin: 50% 100%;
+    animation: space-crawl-title 1100ms cubic-bezier(0.18, 0.74, 0.32, 1) both;
+  }
+
+  @keyframes space-crawl-fade {
+    0%,
+    7% {
+      opacity: 0;
+    }
+    16%,
+    78% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes space-crawl-star-drift {
+    0% {
+      opacity: 0;
+      transform: scale(1.2);
+    }
+    15% {
+      opacity: 0.85;
+    }
+    100% {
+      opacity: 0.35;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes space-crawl-title {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) perspective(600px) rotateX(64deg) translate3d(0, 25vh, 0)
+        scale(2.2);
+    }
+    9% {
+      opacity: 1;
+    }
+    72% {
+      opacity: 0.9;
+      transform: translateX(-50%) perspective(600px) rotateX(64deg) translate3d(0, -38vh, 0)
+        scale(0.34);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) perspective(600px) rotateX(64deg) translate3d(0, -64vh, 0)
+        scale(0.08);
+    }
+  }
+
+  @keyframes logo-space-crawl {
+    0%,
+    100% {
+      transform: perspective(240px) rotateX(0deg) translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+      text-shadow: none;
+    }
+    12% {
+      transform: perspective(240px) rotateX(48deg) translate3d(0, 1px, 0) scale(1.08);
+      text-shadow: 0 1px 0 #b78f00;
+    }
+    42% {
+      transform: perspective(240px) rotateX(58deg) translate3d(3px, -8px, 0) scale(0.82);
+      text-shadow: 0 2px 0 #b78f00;
+    }
+    75% {
+      transform: perspective(240px) rotateX(62deg) translate3d(10px, -25px, 0) scale(0.38);
+      opacity: 0.25;
+    }
+  }
+
+  @keyframes logo-space-stars {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 0, 0) scale(0.5);
+    }
+    15% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(32px, -26px, 0) scale(1);
+    }
+  }
+
+  @keyframes logo-space-horizon {
+    0% {
+      opacity: 0;
+      transform: scaleX(0.2) skewX(-18deg);
+    }
+    20% {
+      opacity: 0.75;
+    }
+    100% {
+      opacity: 0;
+      transform: scaleX(1.8) skewX(-18deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-space-hop.is-launching,
+    .logo-space-hop.is-launching::before,
+    .logo-space-hop.is-launching::after {
+      animation: none;
+    }
+
+    .space-crawl-overlay {
+      display: none;
+    }
+
+    .logo-space-hop.is-launching {
+      color: inherit;
+    }
   }
 
   /* Planet loader: moon orbit */

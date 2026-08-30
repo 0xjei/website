@@ -54,7 +54,7 @@ export function CustomCursor() {
         top: pos.y - 16,
         pointerEvents: "none",
         zIndex: 9999,
-        fontFamily: "var(--font-anonymous-pro), 'Courier New', monospace",
+        fontFamily: "var(--font-ioskeley-mono), 'Courier New', monospace",
         fontSize: "28px",
         lineHeight: 1,
         fontWeight: "bold",
